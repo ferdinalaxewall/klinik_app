@@ -1,5 +1,5 @@
 import 'package:first_mobile_app/model/poli.dart';
-import 'package:first_mobile_app/ui/poli_detail.dart';
+import 'package:first_mobile_app/ui/poli/poli_detail.dart';
 import 'package:flutter/material.dart';
 
 class PoliItem extends StatelessWidget {

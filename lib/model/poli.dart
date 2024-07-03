@@ -8,7 +8,7 @@ class Poli {
   });
 
   factory Poli.fromJson(Map<String, dynamic> json) {
-    return Poli(id: json['id'], namaPoli: json['nama_poli']);
+    return Poli(id: json['id'].toString(), namaPoli: json['nama_poli']);
   }
 
   Map<String, dynamic> toJson() {

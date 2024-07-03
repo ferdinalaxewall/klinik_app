@@ -1,6 +1,7 @@
 import 'package:first_mobile_app/ui/beranda.dart';
+import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
 import 'package:first_mobile_app/ui/login.dart';
-import 'package:first_mobile_app/ui/poli_page.dart';
+import 'package:first_mobile_app/ui/poli/poli_page.dart';
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {
@@ -39,6 +40,13 @@ class Sidebar extends StatelessWidget {
             leading: const Icon(Icons.account_box_sharp),
             title: const Text('Pasien'),
             onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.calendar_month),
+            title: const Text('Jadwal Dokter'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const JadwalDokterPage()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout_rounded),

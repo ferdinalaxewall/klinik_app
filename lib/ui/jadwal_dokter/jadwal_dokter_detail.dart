@@ -1,21 +1,22 @@
+import 'package:first_mobile_app/model/jadwal_dokter.dart';
+import 'package:first_mobile_app/service/jadwal_dokter_service.dart';
 import 'package:first_mobile_app/service/poli_service.dart';
-import 'package:first_mobile_app/ui/poli_page.dart';
-import 'package:first_mobile_app/ui/poli_update_form.dart';
+import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
+import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_update_form.dart';
 import 'package:flutter/material.dart';
-import '../model/poli.dart';
 
-class PoliDetail extends StatefulWidget {
-  final Poli poli;
+class JadwalDokterDetail extends StatefulWidget {
+  final JadwalDokter jadwal_dokter;
 
-  const PoliDetail({super.key, required this.poli});
+  const JadwalDokterDetail({super.key, required this.jadwal_dokter});
 
   @override
-  State<PoliDetail> createState() => _PoliDetailState();
+  State<JadwalDokterDetail> createState() => _JadwalDokterDetailState();
 }
 
-class _PoliDetailState extends State<PoliDetail> {
-  Stream<Poli> getData() async* {
-    Poli data = await PoliService().getById(widget.poli.id.toString());
+class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
+  Stream<JadwalDokter> getData() async* {
+    JadwalDokter data = await JadwalDokterService().getById(widget.jadwal_dokter.id.toString());
     yield data;
   }
 
@@ -23,7 +24,7 @@ class _PoliDetailState extends State<PoliDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Detail Poli"),
+          title: const Text("Detail Jadwal Dokter"),
         ),
         body: StreamBuilder(
           stream: getData(),
@@ -45,8 +46,12 @@ class _PoliDetailState extends State<PoliDetail> {
 
             return Column(
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Text("Nama Poli: ${snapshot.data.namaPoli}"),
+                const SizedBox(height: 10),
+                Text("Nama Dokter: ${snapshot.data.namaDokter}"),
+                const SizedBox(height: 10),
+                Text("Tanggal: ${snapshot.data.formattedTanggal}"),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -66,7 +71,7 @@ class _PoliDetailState extends State<PoliDetail> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PoliUpdateForm(poli: snapshot.data),
+              builder: (context) => JadwalDokterUpdateForm(jadwal_dokter: snapshot.data),
             ),
           );
         },
@@ -92,7 +97,7 @@ class _PoliDetailState extends State<PoliDetail> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const PoliPage(),
+                            builder: (context) => const JadwalDokterPage(),
                           ),
                         );
                       },

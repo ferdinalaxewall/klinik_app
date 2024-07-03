@@ -1,39 +1,23 @@
 import 'package:first_mobile_app/model/poli.dart';
 import 'package:first_mobile_app/service/poli_service.dart';
-import 'package:first_mobile_app/ui/poli_detail.dart';
+import 'package:first_mobile_app/ui/poli/poli_detail.dart';
 import 'package:flutter/material.dart';
 
-class PoliUpdateForm extends StatefulWidget {
-  final Poli poli;
-  const PoliUpdateForm({super.key, required this.poli});
+class PoliForm extends StatefulWidget {
+  const PoliForm({super.key});
 
   @override
-  State<PoliUpdateForm> createState() => _PoliUpdateFormState();
+  State<PoliForm> createState() => _PoliFormState();
 }
 
-class _PoliUpdateFormState extends State<PoliUpdateForm> {
+class _PoliFormState extends State<PoliForm> {
   final formKey = GlobalKey<FormState>();
   final namaPoliController = TextEditingController();
-
-  Future<Poli> getData() async {
-    Poli data = await PoliService().getById(widget.poli.id.toString());
-    setState(() {
-      namaPoliController.text = data.namaPoli;
-    });
-
-    return data;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Ubah Poli")),
+      appBar: AppBar(title: const Text("Tambah Poli")),
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
@@ -60,18 +44,13 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
     return ElevatedButton(
         onPressed: () async {
           Poli poli = Poli(namaPoli: namaPoliController.text);
-          String id = widget.poli.id.toString();
-
-          await PoliService().ubah(poli, id).then((value) {
-            Navigator.pop(context);
+          await PoliService().simpan(poli).then((value) {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) => PoliDetail(poli: value),
-              ),
+              MaterialPageRoute(builder: (context) => PoliDetail(poli: value)),
             );
           });
         },
-        child: const Text("Simpan Perubahan"));
+        child: const Text("Simpan"));
   }
 }
