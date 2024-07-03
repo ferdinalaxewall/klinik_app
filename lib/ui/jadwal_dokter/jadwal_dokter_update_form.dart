@@ -2,6 +2,7 @@ import 'package:first_mobile_app/model/jadwal_dokter.dart';
 import 'package:first_mobile_app/service/jadwal_dokter_service.dart';
 import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class JadwalDokterUpdateForm extends StatefulWidget {
   final JadwalDokter jadwal_dokter;
@@ -14,12 +15,16 @@ class JadwalDokterUpdateForm extends StatefulWidget {
 class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
   final formKey = GlobalKey<FormState>();
   final namaPoliController = TextEditingController();
+  final namaDokterController = TextEditingController();
+  final tanggalController = TextEditingController();
 
   Future<JadwalDokter> getData() async {
     JadwalDokter data =
         await JadwalDokterService().getById(widget.jadwal_dokter.id.toString());
     setState(() {
       namaPoliController.text = data.namaPoli;
+      namaDokterController.text = data.namaDokter;
+      tanggalController.text = DateFormat('yyyy-MM-dd').format(data.tanggal);
     });
 
     return data;
@@ -40,8 +45,12 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
           key: formKey,
           child: Column(
             children: [
-              fieldNamaPoli(),
-              const SizedBox(height: 20),
+                fieldNamaPoli(),
+                const SizedBox(height: 20),
+                fieldNamaDokter(),
+                const SizedBox(height: 20),
+                fieldTanggal(),
+                const SizedBox(height: 20),
               tombolSimpan()
             ],
           ),
@@ -52,8 +61,22 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
 
   fieldNamaPoli() {
     return TextField(
-      decoration: const InputDecoration(labelText: "Nama JadwalDokter"),
+      decoration: const InputDecoration(labelText: "Nama Poli"),
       controller: namaPoliController,
+    );
+  }
+
+  fieldNamaDokter() {
+    return TextField(
+      decoration: const InputDecoration(labelText: "Nama Dokter"),
+      controller: namaDokterController,
+    );
+  }
+
+  fieldTanggal() {
+    return TextField(
+      decoration: const InputDecoration(labelText: "Tanggal (YYYY-MM-DD)"),
+      controller: tanggalController,
     );
   }
 
@@ -62,8 +85,8 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
         onPressed: () async {
           JadwalDokter jadwal_dokter = JadwalDokter(
             namaPoli: namaPoliController.text,
-            namaDokter: "Dokter 1 Updated",
-            tanggal: DateTime.now(),
+            namaDokter: namaDokterController.text,
+            tanggal: DateFormat('yyyy-MM-dd').parse(tanggalController.text),
           );
           String id = widget.jadwal_dokter.id.toString();
 

@@ -79,9 +79,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
               MaterialPageRoute(
                 builder: (context) => JadwalDokterDetail(jadwal_dokter: value),
               ),
-            ).catchError((error) {
-              print(error);
-            });
+            );
           });
         },
         child: const Text("Simpan"));

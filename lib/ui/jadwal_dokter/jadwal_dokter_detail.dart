@@ -1,6 +1,5 @@
 import 'package:first_mobile_app/model/jadwal_dokter.dart';
 import 'package:first_mobile_app/service/jadwal_dokter_service.dart';
-import 'package:first_mobile_app/service/poli_service.dart';
 import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
 import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_update_form.dart';
 import 'package:flutter/material.dart';
@@ -91,7 +90,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
                 stream: getData(),
                 builder: (context, AsyncSnapshot snapshot) => ElevatedButton(
                   onPressed: () async {
-                    await PoliService().hapus(snapshot.data).then(
+                    await JadwalDokterService().hapus(snapshot.data).then(
                       (value) {
                         Navigator.pop(context);
                         Navigator.pushReplacement(

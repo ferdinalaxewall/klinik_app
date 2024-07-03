@@ -2,6 +2,10 @@ import 'package:dio/dio.dart';
 
 final Dio dio = Dio(
   BaseOptions(
+    // Base URL using MockAPI
+    // baseUrl: 'https://6661bc1c63e6a0189feb5448.mockapi.io/api/v1/',
+
+    // Base URL using Local NestJS App
     baseUrl: 'http://localhost:3000/',
     connectTimeout: const Duration(seconds: 5),
     receiveTimeout: const Duration(seconds: 3)
@@ -14,7 +18,6 @@ class ApiClient {
       final response = await dio.get(Uri.encodeFull(path));
       return response;
     } on DioException catch (e) {
-      print(e.message);
       throw Exception(e.message);
     }
   }

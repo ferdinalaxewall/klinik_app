@@ -10,8 +10,9 @@ Future<void> main() async {
     MaterialApp(
       title: 'Klinik',
       home: token != null ? Beranda() : Login(),
-      theme: ThemeData.light(
-        useMaterial3: true
+      theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: 'Nunito'
       ),
       debugShowCheckedModeBanner: false,
     )

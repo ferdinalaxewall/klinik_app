@@ -13,7 +13,6 @@ class JadwalDokterService {
   
   Future<JadwalDokter> simpan(JadwalDokter jadwal_dokter) async {
     var data = jadwal_dokter.toJson();
-    print(data);
     final Response response = await ApiClient().post('jadwal-dokter', data);
     JadwalDokter result = JadwalDokter.fromJson(response.data);
 
