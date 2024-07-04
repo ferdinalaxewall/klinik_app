@@ -1,11 +1,12 @@
-import 'package:klinik_app/model/jadwal_dokter.dart';
-import 'package:klinik_app/service/jadwal_dokter_service.dart';
-import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
-import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_update_form.dart';
-import 'package:flutter/material.dart';
+import 'package:klinik_app/model/jadwal_dokter.dart'; // Import model JadwalDokter
+import 'package:klinik_app/service/jadwal_dokter_service.dart'; // Import service JadwalDokterService
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_page.dart'; // Import halaman JadwalDokterPage
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_update_form.dart'; // Import form untuk update JadwalDokter
+import 'package:flutter/material.dart'; // Import package Flutter
 
+// Halaman detail untuk JadwalDokter
 class JadwalDokterDetail extends StatefulWidget {
-  final JadwalDokter jadwal_dokter;
+  final JadwalDokter jadwal_dokter; // Data jadwal dokter yang akan ditampilkan
 
   const JadwalDokterDetail({super.key, required this.jadwal_dokter});
 
@@ -14,6 +15,7 @@ class JadwalDokterDetail extends StatefulWidget {
 }
 
 class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
+  // Method untuk mengambil data jadwal dokter berdasarkan ID
   Stream<JadwalDokter> getData() async* {
     JadwalDokter data =
         await JadwalDokterService().getById(widget.jadwal_dokter.id.toString());
@@ -24,38 +26,38 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Detail Jadwal Dokter"),
+          title: const Text("Detail Jadwal Dokter"), // Judul AppBar
         ),
         body: StreamBuilder(
-          stream: getData(),
+          stream: getData(), // Stream data jadwal dokter
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
+              return Text(snapshot.error.toString()); // Tampilkan error jika ada
             }
 
             if (snapshot.connectionState != ConnectionState.done) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(), // Tampilkan loading indicator jika data belum selesai dimuat
               );
             }
 
             if (!snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
-              return const Text('Data Tidak Ditemukan');
+              return const Text('Data Tidak Ditemukan'); // Tampilkan pesan jika data tidak ditemukan
             }
 
             return Column(
               children: [
                 const SizedBox(height: 10),
-                Text("Nama Poli: ${snapshot.data.namaPoli}"),
+                Text("Nama Poli: ${snapshot.data.namaPoli}"), // Tampilkan nama poli
                 const SizedBox(height: 10),
-                Text("Nama Dokter: ${snapshot.data.namaDokter}"),
+                Text("Nama Dokter: ${snapshot.data.namaDokter}"), // Tampilkan nama dokter
                 const SizedBox(height: 10),
-                Text("Tanggal: ${snapshot.data.formattedTanggal}"),
+                Text("Tanggal: ${snapshot.data.formattedTanggal}"), // Tampilkan tanggal
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [tombolUbah(), tombolHapus()],
+                  children: [tombolUbah(), tombolHapus()], // Tombol untuk mengubah dan menghapus data
                 )
               ],
             );
@@ -63,6 +65,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
         ));
   }
 
+  // Widget tombol untuk mengubah data
   tombolUbah() {
     return StreamBuilder(
       stream: getData(),
@@ -72,7 +75,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  JadwalDokterUpdateForm(jadwal_dokter: snapshot.data),
+                  JadwalDokterUpdateForm(jadwal_dokter: snapshot.data), // Navigasi ke form update JadwalDokter
             ),
           );
         },
@@ -94,12 +97,13 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
     );
   }
 
+  // Widget tombol untuk menghapus data
   tombolHapus() {
     return ElevatedButton(
       onPressed: () {
         AlertDialog alertDialog = AlertDialog(
           content: const Text(
-            "Yakin ingin menghapus data ini?",
+            "Yakin ingin menghapus data ini?", // Pesan konfirmasi
             style: TextStyle(
               fontSize: 16,
             ),
@@ -115,7 +119,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const JadwalDokterPage(),
+                          builder: (context) => const JadwalDokterPage(), // Kembali ke halaman JadwalDokterPage
                         ),
                       );
                     },
@@ -125,7 +129,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,
                 ),
-                child: const Text("Ya"),
+                child: const Text("Ya"), // Tombol konfirmasi "Ya"
               ),
             ),
             ElevatedButton(
@@ -136,12 +140,12 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
                 backgroundColor: Colors.green,
                 foregroundColor: Colors.white,
               ),
-              child: const Text("Tidak"),
+              child: const Text("Tidak"), // Tombol konfirmasi "Tidak"
             )
           ],
         );
 
-        showDialog(context: context, builder: (context) => alertDialog);
+        showDialog(context: context, builder: (context) => alertDialog); // Tampilkan dialog konfirmasi
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.red,

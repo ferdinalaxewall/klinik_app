@@ -1,13 +1,14 @@
-import 'package:klinik_app/model/jadwal_dokter.dart';
-import 'package:klinik_app/model/poli.dart';
-import 'package:klinik_app/service/jadwal_dokter_service.dart';
-import 'package:klinik_app/service/poli_service.dart';
-import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_detail.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:klinik_app/model/jadwal_dokter.dart'; // Import model JadwalDokter
+import 'package:klinik_app/model/poli.dart'; // Import model Poli
+import 'package:klinik_app/service/jadwal_dokter_service.dart'; // Import service JadwalDokterService
+import 'package:klinik_app/service/poli_service.dart'; // Import service PoliService
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_detail.dart'; // Import halaman detail JadwalDokter
+import 'package:flutter/material.dart'; // Import package Flutter
+import 'package:intl/intl.dart'; // Import package untuk format tanggal
 
-final formatter = DateFormat('yyyy/MM/dd');
+final formatter = DateFormat('yyyy/MM/dd'); // Format tanggal
 
+// Halaman form untuk menambah atau mengubah JadwalDokter
 class JadwalDokterForm extends StatefulWidget {
   const JadwalDokterForm({super.key});
 
@@ -23,6 +24,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
 
   List<Poli> _availablePoli = [];
 
+  // Method untuk mendapatkan data poli
   void getPoli() async {
     List<Poli> dataPoli = await PoliService().listData();
 
@@ -31,6 +33,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
     });
   }
 
+  // Method untuk menampilkan date picker
   void _showDatePicker() async {
     DateTime now = DateTime.now();
     DateTime currentDate = _selectedDate ?? now;
@@ -67,7 +70,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Jadwal Dokter")),
+      appBar: AppBar(title: const Text("Tambah Jadwal Dokter")), // AppBar dengan judul
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
@@ -75,13 +78,13 @@ class _PoliFormState extends State<JadwalDokterForm> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                fieldNamaDokter(),
+                fieldNamaDokter(), // Field untuk memasukkan nama dokter
                 const SizedBox(height: 20),
-                fieldNamaPoli(),
+                fieldNamaPoli(), // Field untuk memilih nama poli
                 const SizedBox(height: 20),
-                fieldTanggal(),
+                fieldTanggal(), // Field untuk memilih tanggal
                 const SizedBox(height: 20),
-                tombolSimpan()
+                tombolSimpan() // Tombol untuk menyimpan data
               ],
             ),
           ),
@@ -90,6 +93,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
     );
   }
 
+  // Field untuk memilih nama poli
   fieldNamaPoli() {
     return SizedBox(
       width: double.infinity,
@@ -117,6 +121,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
     );
   }
 
+  // Field untuk memasukkan nama dokter
   fieldNamaDokter() {
     return TextField(
       decoration: const InputDecoration(labelText: "Nama Dokter"),
@@ -124,6 +129,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
     );
   }
 
+  // Field untuk memilih tanggal
   fieldTanggal() {
     return Row(
       children: [
@@ -137,13 +143,14 @@ class _PoliFormState extends State<JadwalDokterForm> {
           width: 10,
         ),
         IconButton(
-          onPressed: _showDatePicker,
+          onPressed: _showDatePicker, // Ketika tombol kalender ditekan
           icon: const Icon(Icons.calendar_month),
         )
       ],
     );
   }
 
+  // Tombol untuk menyimpan data jadwal dokter
   tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
@@ -178,7 +185,7 @@ class _PoliFormState extends State<JadwalDokterForm> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => JadwalDokterDetail(jadwal_dokter: value),
+              builder: (context) => JadwalDokterDetail(jadwal_dokter: value), // Navigasi ke halaman detail JadwalDokter
             ),
           );
         });
