@@ -28,7 +28,8 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
     JadwalDokter data =
         await JadwalDokterService().getById(widget.jadwal_dokter.id.toString());
     setState(() {
-      _selectedPoli = data.namaPoli;
+      _selectedPoli =
+          _availablePoli.contains(data.namaPoli) ? data.namaPoli : null;
       namaDokterController.text = data.namaDokter;
       _selectedDate = data.tanggal;
     });
@@ -153,45 +154,50 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
 
   tombolSimpan() {
     return ElevatedButton(
-        onPressed: () async {
-          if (_selectedPoli == null ||
-              namaDokterController.text.trim().isEmpty ||
-              _selectedDate == null) {
-            showDialog(
-              context: context,
-              builder: (ctx) => AlertDialog(
-                title: const Text('Input Tidak Valid'),
-                content: const Text(
-                    'Pastikan Nama Dokter, Poli, dan Tanggal Sudah Terisi!'),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    child: const Text('Mengerti'),
-                  )
-                ],
-              ),
-            );
-
-            return;
-          }
-
-          JadwalDokter jadwal_dokter = JadwalDokter(
-            namaPoli: _selectedPoli!,
-            namaDokter: namaDokterController.text,
-            tanggal: _selectedDate!,
+      onPressed: () async {
+        if (_selectedPoli == null ||
+            namaDokterController.text.trim().isEmpty ||
+            _selectedDate == null) {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Input Tidak Valid'),
+              content: const Text(
+                  'Pastikan Nama Dokter, Poli, dan Tanggal Sudah Terisi!'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('Mengerti'),
+                )
+              ],
+            ),
           );
-          String id = widget.jadwal_dokter.id.toString();
 
-          await JadwalDokterService().ubah(jadwal_dokter, id).then((value) {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => JadwalDokterDetail(jadwal_dokter: value),
-              ),
-            );
-          });
-        },
-        child: const Text("Simpan Perubahan"));
+          return;
+        }
+
+        JadwalDokter jadwal_dokter = JadwalDokter(
+          namaPoli: _selectedPoli!,
+          namaDokter: namaDokterController.text,
+          tanggal: _selectedDate!,
+        );
+        String id = widget.jadwal_dokter.id.toString();
+
+        await JadwalDokterService().ubah(jadwal_dokter, id).then((value) {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => JadwalDokterDetail(jadwal_dokter: value),
+            ),
+          );
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
+      child: const Text("Simpan Perubahan"),
+    );
   }
 }

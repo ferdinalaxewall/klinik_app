@@ -179,6 +179,10 @@ class _PoliFormState extends State<JadwalDokterForm> {
           );
         });
       },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
       child: const Text("Simpan"),
     );
   }

@@ -19,40 +19,36 @@ class _LoginState extends State<Login> {
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Container(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Login Admin', 
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500
-                  ),
-                ),
-                const SizedBox(height: 50),
-                Center(
-                  child: Form(
-                    key: formKey,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width / 1.3,
-                      child: Column(
-                        children: [
-                          usernameTextField(),
-                          const SizedBox(height: 20),
-                          passwordTextField(),
-                          const SizedBox(height: 40),
-                          tombolLogin()
-                        ],
-                      ),
+            child: Container(
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Login Admin',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 50),
+              Center(
+                child: Form(
+                  key: formKey,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 1.3,
+                    child: Column(
+                      children: [
+                        usernameTextField(),
+                        const SizedBox(height: 20),
+                        passwordTextField(),
+                        const SizedBox(height: 40),
+                        tombolLogin()
+                      ],
                     ),
                   ),
-                )
-              ],
-            ),
-          )
-        ),
+                ),
+              )
+            ],
+          ),
+        )),
       ),
     );
   }
@@ -73,7 +69,7 @@ class _LoginState extends State<Login> {
   }
 
   Widget tombolLogin() {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: ElevatedButton(
         child: const Text('Login'),
@@ -84,16 +80,28 @@ class _LoginState extends State<Login> {
           await LoginService().login(username, password).then((isLogin) {
             if (isLogin) {
               Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (context) => Beranda())
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Beranda(),
+                ),
               );
             } else {
               AlertDialog alertDialog = AlertDialog(
-                content: const Text("Username & Password Salah!"),
+                content: const Text(
+                  "Username & Password Salah!",
+                ),
                 actions: [
                   ElevatedButton(
-                    onPressed: () => Navigator.pop(context), 
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                    child: const Text('OK'),
+                    onPressed: () => Navigator.pop(context),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: const Text(
+                      'OK',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                   )
                 ],
               );
@@ -101,8 +109,11 @@ class _LoginState extends State<Login> {
               showDialog(context: context, builder: (context) => alertDialog);
             }
           });
-
         },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+        ),
       ),
     );
   }

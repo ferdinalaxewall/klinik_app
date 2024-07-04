@@ -76,7 +76,7 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
 
           return;
         }
-        
+
         Poli poli = Poli(namaPoli: namaPoliController.text);
         String id = widget.poli.id.toString();
 
@@ -90,6 +90,10 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
           );
         });
       },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.deepPurple,
+        foregroundColor: Colors.white,
+      ),
       child: const Text("Simpan Perubahan"),
     );
   }
