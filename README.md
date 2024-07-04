@@ -1,6 +1,3 @@
-Berikut adalah contoh `README.md` untuk aplikasi Klinik App:
-
-```markdown
 # Klinik App
 
 Klinik App adalah aplikasi yang dibangun menggunakan Flutter untuk mengelola data klinik seperti poli, pegawai, pasien, dan jadwal dokter. Aplikasi ini menyediakan fitur login dan logout serta operasi CRUD (Create, Read, Update, Delete) untuk berbagai entitas.
@@ -29,14 +26,14 @@ Sebelum memulai, pastikan Anda memiliki persyaratan berikut:
 
 Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di mesin lokal Anda:
 
-1. **Clone repositori ini**
+1. Clone repositori ini
 
    ```sh
    git clone https://github.com/username/klinik_app.git
    cd klinik_app
    ```
 
-2. **Instal dependensi**
+2. Instal dependensi
 
    Jalankan perintah berikut untuk menginstal semua dependensi yang dibutuhkan oleh aplikasi Flutter:
 
@@ -44,7 +41,7 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di mesin lokal Anda
    flutter pub get
    ```
 
-3. **Jalankan aplikasi**
+3. Jalankan aplikasi
 
    Pastikan Anda telah menghubungkan perangkat atau emulator yang mendukung Flutter. Kemudian, jalankan aplikasi dengan perintah berikut:
 
@@ -52,7 +49,7 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di mesin lokal Anda
    flutter run
    ```
 
-4. **Backend Aplikasi**
+4. Backend Aplikasi
 
    Untuk menjalankan aplikasi backend, silakan menuju ke repositori [backend_klinik_app](https://github.com/ferdinalaxewall/backend_klinik_app) dan ikuti petunjuk instalasi yang terdapat di sana.
 
@@ -76,6 +73,5 @@ Aplikasi ini dilisensikan di bawah [MIT License](LICENSE).
 
 Jika Anda memiliki pertanyaan atau masukan, silakan hubungi kami di [ferdinalraihan@gmail.com].
 
-```
 
 Sesuaikan bagian yang perlu dengan informasi spesifik dari proyek Anda. README ini memberikan panduan dasar untuk memulai dengan aplikasi Klinik App, termasuk cara menginstal dan menjalankan aplikasi, serta mengarahkan pengguna ke repositori backend.
