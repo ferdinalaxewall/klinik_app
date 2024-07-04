@@ -29,7 +29,7 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di mesin lokal Anda
 1. Clone repositori ini
 
    ```sh
-   git clone https://github.com/username/klinik_app.git
+   git clone https://github.com/ferdinalaxewall/klinik_app.git
    cd klinik_app
    ```
 
