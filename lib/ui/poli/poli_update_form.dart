@@ -58,20 +58,39 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
 
   tombolSimpan() {
     return ElevatedButton(
-        onPressed: () async {
-          Poli poli = Poli(namaPoli: namaPoliController.text);
-          String id = widget.poli.id.toString();
+      onPressed: () async {
+        if (namaPoliController.text.trim().isEmpty) {
+          showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: const Text('Input Tidak Valid'),
+              content: const Text('Pastikan Nama Poli Sudah Terisi!'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: const Text('Mengerti'),
+                )
+              ],
+            ),
+          );
 
-          await PoliService().ubah(poli, id).then((value) {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PoliDetail(poli: value),
-              ),
-            );
-          });
-        },
-        child: const Text("Simpan Perubahan"));
+          return;
+        }
+        
+        Poli poli = Poli(namaPoli: namaPoliController.text);
+        String id = widget.poli.id.toString();
+
+        await PoliService().ubah(poli, id).then((value) {
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PoliDetail(poli: value),
+            ),
+          );
+        });
+      },
+      child: const Text("Simpan Perubahan"),
+    );
   }
 }

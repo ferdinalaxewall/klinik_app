@@ -43,6 +43,24 @@ class _PoliFormState extends State<PoliForm> {
   tombolSimpan() {
     return ElevatedButton(
         onPressed: () async {
+          if (namaPoliController.text.trim().isEmpty) {
+            showDialog(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('Input Tidak Valid'),
+                content: const Text('Pastikan Nama Poli Sudah Terisi!'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: const Text('Mengerti'),
+                  )
+                ],
+              ),
+            );
+
+            return;
+          }
+          
           Poli poli = Poli(namaPoli: namaPoliController.text);
           await PoliService().simpan(poli).then((value) {
             Navigator.push(
