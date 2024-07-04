@@ -1,46 +1,51 @@
 import 'package:intl/intl.dart';
 
-class Pasien {
-  final String? id;
-  final String nomorRM;
-  final String nama;
-  final DateTime tanggalLahir;
-  final String nomorTelepon;
-  final String alamat;
+class Pegawai {
+  String? id;
+  String nip;
+  String nama;
+  DateTime tanggalLahir;
 
-  Pasien({
+  String nomorTelepon;
+  String email;
+  String password;
+
+  Pegawai({
     this.id,
-    required this.nomorRM,
+    required this.nip,
     required this.nama,
     required this.tanggalLahir,
     required this.nomorTelepon,
-    required this.alamat,
+    required this.email,
+    required this.password,
   });
 
   final DateFormat format = DateFormat("dd MMMM yyyy");
 
-  factory Pasien.fromJson(Map<String, dynamic> json) {
-    return Pasien(
+  factory Pegawai.fromJson(Map<String, dynamic> json) {
+    return Pegawai(
       id: json['id'].toString(),
-      nomorRM: json['nomor_rm'],
+      nip: json['nip'],
       nama: json['nama'],
       tanggalLahir: DateTime.parse(json['tanggal_lahir']),
       nomorTelepon: json['nomor_telepon'],
-      alamat: json['alamat'],
+      email: json['email'],
+      password: json['password'],
     );
   }
-
+  
   String get formattedTanggalLahir {
     return format.format(tanggalLahir);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'nomor_rm': nomorRM,
+      'nip': nip,
       'nama': nama,
       'tanggal_lahir': tanggalLahir.toString(),
       'nomor_telepon': nomorTelepon,
-      'alamat': alamat,
+      'email': email,
+      'password': password,
     };
   }
 }
