@@ -15,7 +15,8 @@ class JadwalDokterDetail extends StatefulWidget {
 
 class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
   Stream<JadwalDokter> getData() async* {
-    JadwalDokter data = await JadwalDokterService().getById(widget.jadwal_dokter.id.toString());
+    JadwalDokter data =
+        await JadwalDokterService().getById(widget.jadwal_dokter.id.toString());
     yield data;
   }
 
@@ -70,55 +71,96 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => JadwalDokterUpdateForm(jadwal_dokter: snapshot.data),
+              builder: (context) =>
+                  JadwalDokterUpdateForm(jadwal_dokter: snapshot.data),
             ),
           );
         },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-        child: const Text("Ubah"),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white,
+        ),
+        child: const Row(
+          children: [
+            Icon(
+              Icons.edit_outlined,
+              size: 15,
+            ),
+            SizedBox(width: 5,),
+            Text('Ubah')
+          ],
+        ),
       ),
     );
   }
 
   tombolHapus() {
     return ElevatedButton(
-        onPressed: () {
-          AlertDialog alertDialog = AlertDialog(
-            content: const Text("Yakin ingin menghapus data ini?"),
-            actions: [
-              StreamBuilder(
-                stream: getData(),
-                builder: (context, AsyncSnapshot snapshot) => ElevatedButton(
-                  onPressed: () async {
-                    await JadwalDokterService().hapus(snapshot.data).then(
-                      (value) {
-                        Navigator.pop(context);
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const JadwalDokterPage(),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  child: const Text("Ya"),
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
+      onPressed: () {
+        AlertDialog alertDialog = AlertDialog(
+          content: const Text(
+            "Yakin ingin menghapus data ini?",
+            style: TextStyle(
+              fontSize: 16,
+            ),
+          ),
+          actions: [
+            StreamBuilder(
+              stream: getData(),
+              builder: (context, AsyncSnapshot snapshot) => ElevatedButton(
+                onPressed: () async {
+                  await JadwalDokterService().hapus(snapshot.data).then(
+                    (value) {
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const JadwalDokterPage(),
+                        ),
+                      );
+                    },
+                  );
                 },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: const Text("Tidak"),
-              )
-            ],
-          );
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text("Ya"),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+              ),
+              child: const Text("Tidak"),
+            )
+          ],
+        );
 
-          showDialog(context: context, builder: (context) => alertDialog);
-        },
-        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-        child: const Text("Hapus"));
+        showDialog(context: context, builder: (context) => alertDialog);
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red,
+        foregroundColor: Colors.white,
+      ),
+      child: const Row(
+        children: [
+          Icon(
+            Icons.delete_outline_rounded,
+            size: 15,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            'Hapus',
+          )
+        ],
+      ),
+    );
   }
 }
