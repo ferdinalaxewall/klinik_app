@@ -1,6 +1,7 @@
 import 'package:first_mobile_app/ui/beranda.dart';
 import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
 import 'package:first_mobile_app/ui/login.dart';
+import 'package:first_mobile_app/ui/pasien/pasien_page.dart';
 import 'package:first_mobile_app/ui/poli/poli_page.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +40,9 @@ class Sidebar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.account_box_sharp),
             title: const Text('Pasien'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const PasienPage()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.calendar_month),

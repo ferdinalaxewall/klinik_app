@@ -1,22 +1,22 @@
-import 'package:first_mobile_app/model/poli.dart';
-import 'package:first_mobile_app/service/poli_service.dart';
-import 'package:first_mobile_app/ui/poli/poli_form.dart';
-import 'package:first_mobile_app/ui/poli/poli_item.dart';
+import 'package:first_mobile_app/model/pasien.dart';
+import 'package:first_mobile_app/service/pasien_service.dart';
+import 'package:first_mobile_app/ui/pasien/pasien_form.dart';
+import 'package:first_mobile_app/ui/pasien/pasien_item.dart';
 import 'package:first_mobile_app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
-class PoliPage extends StatefulWidget {
-  const PoliPage({Key? key}) : super(key: key);
+class PasienPage extends StatefulWidget {
+  const PasienPage({Key? key}) : super(key: key);
 
   @override
-  State<PoliPage> createState() => _PoliPageState();
+  State<PasienPage> createState() => _PoliPageState();
 }
 
-class _PoliPageState extends State<PoliPage> {
-  late Stream<List<Poli>> _poliStream;
+class _PoliPageState extends State<PasienPage> {
+  late Stream<List<Pasien>> _poliStream;
 
-  Stream<List<Poli>> getList() async* {
-    List<Poli> data = await PoliService().listData();
+  Stream<List<Pasien>> getList() async* {
+    List<Pasien> data = await PasienService().listData();
     yield data;
   }
 
@@ -31,13 +31,17 @@ class _PoliPageState extends State<PoliPage> {
     return Scaffold(
       drawer: const Sidebar(),
       appBar: AppBar(
-        title: const Text('Data Poli'),
+        title: const Text('Data Pasien'),
         actions: [
           GestureDetector(
             child: const Icon(Icons.add),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const PoliForm()));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PasienForm(),
+                ),
+              );
             },
           )
         ],
@@ -63,7 +67,7 @@ class _PoliPageState extends State<PoliPage> {
           return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
-              return PoliItem(poli: snapshot.data[index]);
+              return PasienItem(pasien: snapshot.data[index]);
             },
           );
         },

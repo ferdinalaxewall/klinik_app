@@ -9,7 +9,7 @@ class JadwalDokterPage extends StatefulWidget {
   const JadwalDokterPage({Key? key}) : super(key: key);
 
   @override
-  _JadwalDokterPageState createState() => _JadwalDokterPageState();
+  State<JadwalDokterPage> createState() => _JadwalDokterPageState();
 }
 
 class _JadwalDokterPageState extends State<JadwalDokterPage> {

@@ -41,7 +41,11 @@ class _PoliFormState extends State<JadwalDokterForm> {
       currentDate.day,
     );
 
-    final DateTime lastDate = DateTime(now.year, now.month + 1, now.day);
+    final DateTime lastDate = DateTime(
+      now.year,
+      now.month + 1,
+      now.day,
+    );
 
     final pickedDate = await showDatePicker(
         context: context,
