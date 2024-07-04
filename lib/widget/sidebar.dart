@@ -1,9 +1,9 @@
-import 'package:first_mobile_app/ui/beranda.dart';
-import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
-import 'package:first_mobile_app/ui/login.dart';
-import 'package:first_mobile_app/ui/pasien/pasien_page.dart';
-import 'package:first_mobile_app/ui/pegawai/pegawai_page.dart';
-import 'package:first_mobile_app/ui/poli/poli_page.dart';
+import 'package:klinik_app/ui/beranda.dart';
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_page.dart';
+import 'package:klinik_app/ui/login.dart';
+import 'package:klinik_app/ui/pasien/pasien_page.dart';
+import 'package:klinik_app/ui/pegawai/pegawai_page.dart';
+import 'package:klinik_app/ui/poli/poli_page.dart';
 import 'package:flutter/material.dart';
 
 class Sidebar extends StatelessWidget {

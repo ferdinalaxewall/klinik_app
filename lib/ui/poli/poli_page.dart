@@ -1,8 +1,8 @@
-import 'package:first_mobile_app/model/poli.dart';
-import 'package:first_mobile_app/service/poli_service.dart';
-import 'package:first_mobile_app/ui/poli/poli_form.dart';
-import 'package:first_mobile_app/ui/poli/poli_item.dart';
-import 'package:first_mobile_app/widget/sidebar.dart';
+import 'package:klinik_app/model/poli.dart';
+import 'package:klinik_app/service/poli_service.dart';
+import 'package:klinik_app/ui/poli/poli_form.dart';
+import 'package:klinik_app/ui/poli/poli_item.dart';
+import 'package:klinik_app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
 class PoliPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:first_mobile_app/helper/api_client.dart';
-import 'package:first_mobile_app/model/pegawai.dart';
+import 'package:klinik_app/helper/api_client.dart';
+import 'package:klinik_app/model/pegawai.dart';
 
 class PegawaiService {
   Future<List<Pegawai>> listData() async {

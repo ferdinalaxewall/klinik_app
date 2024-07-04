@@ -1,4 +1,4 @@
-import 'package:first_mobile_app/helper/user_info.dart';
+import 'package:klinik_app/helper/user_info.dart';
 
 class LoginService {
   Future<bool> login(String username, String password) async {

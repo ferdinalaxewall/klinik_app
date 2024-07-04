@@ -1,5 +1,5 @@
-import 'package:first_mobile_app/service/login_service.dart';
-import 'package:first_mobile_app/ui/beranda.dart';
+import 'package:klinik_app/service/login_service.dart';
+import 'package:klinik_app/ui/beranda.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatefulWidget {

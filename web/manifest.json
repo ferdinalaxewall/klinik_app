@@ -1,6 +1,6 @@
 {
-    "name": "first_mobile_app",
-    "short_name": "first_mobile_app",
+    "name": "klinik_app",
+    "short_name": "klinik_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

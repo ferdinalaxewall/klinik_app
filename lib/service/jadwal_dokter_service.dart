@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:first_mobile_app/helper/api_client.dart';
-import 'package:first_mobile_app/model/jadwal_dokter.dart';
+import 'package:klinik_app/helper/api_client.dart';
+import 'package:klinik_app/model/jadwal_dokter.dart';
 
 class JadwalDokterService {
   Future<List<JadwalDokter>> listData() async {

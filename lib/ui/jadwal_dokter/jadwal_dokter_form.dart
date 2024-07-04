@@ -1,8 +1,8 @@
-import 'package:first_mobile_app/model/jadwal_dokter.dart';
-import 'package:first_mobile_app/model/poli.dart';
-import 'package:first_mobile_app/service/jadwal_dokter_service.dart';
-import 'package:first_mobile_app/service/poli_service.dart';
-import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_detail.dart';
+import 'package:klinik_app/model/jadwal_dokter.dart';
+import 'package:klinik_app/model/poli.dart';
+import 'package:klinik_app/service/jadwal_dokter_service.dart';
+import 'package:klinik_app/service/poli_service.dart';
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

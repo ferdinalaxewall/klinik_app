@@ -1,6 +1,6 @@
-import 'package:first_mobile_app/helper/user_info.dart';
-import 'package:first_mobile_app/ui/beranda.dart';
-import 'package:first_mobile_app/ui/login.dart';
+import 'package:klinik_app/helper/user_info.dart';
+import 'package:klinik_app/ui/beranda.dart';
+import 'package:klinik_app/ui/login.dart';
 import 'package:flutter/material.dart';
 
 Future<void> main() async {

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:first_mobile_app/helper/api_client.dart';
-import 'package:first_mobile_app/model/poli.dart';
+import 'package:klinik_app/helper/api_client.dart';
+import 'package:klinik_app/model/poli.dart';
 
 class PoliService {
   Future<List<Poli>> listData() async {

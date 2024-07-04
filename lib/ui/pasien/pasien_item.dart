@@ -1,5 +1,5 @@
-import 'package:first_mobile_app/model/pasien.dart';
-import 'package:first_mobile_app/ui/pasien/pasien_detail.dart';
+import 'package:klinik_app/model/pasien.dart';
+import 'package:klinik_app/ui/pasien/pasien_detail.dart';
 import 'package:flutter/material.dart';
 
 class PasienItem extends StatelessWidget {

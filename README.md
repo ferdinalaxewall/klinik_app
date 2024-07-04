@@ -1,4 +1,4 @@
-# first_mobile_app
+# klinik_app
 
 A new Flutter project.
 

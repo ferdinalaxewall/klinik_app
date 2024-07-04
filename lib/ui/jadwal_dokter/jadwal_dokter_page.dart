@@ -1,8 +1,8 @@
-import 'package:first_mobile_app/model/jadwal_dokter.dart';
-import 'package:first_mobile_app/service/jadwal_dokter_service.dart';
-import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_form.dart';
-import 'package:first_mobile_app/ui/jadwal_dokter/jadwal_dokter_item.dart';
-import 'package:first_mobile_app/widget/sidebar.dart';
+import 'package:klinik_app/model/jadwal_dokter.dart';
+import 'package:klinik_app/service/jadwal_dokter_service.dart';
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_form.dart';
+import 'package:klinik_app/ui/jadwal_dokter/jadwal_dokter_item.dart';
+import 'package:klinik_app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
 class JadwalDokterPage extends StatefulWidget {
