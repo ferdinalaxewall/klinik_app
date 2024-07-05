@@ -21,8 +21,10 @@ class PegawaiItem extends StatelessWidget {
             children: [
               Text(
                 pegawai.nama,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

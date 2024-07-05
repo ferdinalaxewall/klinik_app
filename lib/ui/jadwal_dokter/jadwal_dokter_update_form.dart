@@ -51,6 +51,34 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
     });
   }
 
+  // Method untuk menampilkan date picker
+  void _showDatePicker() async {
+    DateTime now = DateTime.now();
+    DateTime currentDate = _selectedDate ?? now;
+
+    final DateTime firstDate = DateTime(
+      currentDate.year - 1,
+      currentDate.month,
+      currentDate.day,
+    );
+
+    final DateTime lastDate = DateTime(
+      now.year,
+      now.month + 1,
+      now.day,
+    );
+
+    final pickedDate = await showDatePicker(
+        context: context,
+        initialDate: currentDate,
+        firstDate: firstDate,
+        lastDate: lastDate);
+
+    setState(() {
+      _selectedDate = pickedDate;
+    });
+  }
+
   // Menampilkan halaman form ubah JadwalDokter
   @override
   void initState() {

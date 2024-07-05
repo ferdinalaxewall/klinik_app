@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var token = await UserInfo().getToken();
+  String? token = await UserInfo().getToken();
+
   runApp(
     MaterialApp(
       title: 'Klinik',
