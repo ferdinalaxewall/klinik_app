@@ -49,13 +49,48 @@ Ikuti langkah-langkah berikut untuk menjalankan aplikasi ini di mesin lokal Anda
    flutter run
    ```
 
-4. Backend Aplikasi
+4. Backend Aplikasi (Custom)
 
    Untuk menjalankan aplikasi backend, silakan menuju ke repositori [backend_klinik_app](https://github.com/ferdinalaxewall/backend_klinik_app) dan ikuti petunjuk instalasi yang terdapat di sana.
 
 ## Penggunaan
 
 Setelah berhasil menjalankan aplikasi, Anda dapat melakukan login dengan akun yang disediakan dibawah ini. Setelah login, Anda dapat mengelola data poli, pegawai, pasien, dan jadwal dokter melalui antarmuka yang disediakan.
+
+## Integrasi API
+
+Dalam aplikasi ini anda dapat menggunakan API/Backend dengan 2 Tipe Integrasi (MockAPI dan Custom API menggunakan NestJS + TypeScript)
+
+1. Integrasi dengan MockAPI
+   Buka file `lib/helper/api_client.dart` lalu aktifkan `baseUrl` yang **menggunakan MockAPI**
+   ```dart
+   late final Dio dio = Dio(
+      BaseOptions(
+         // URL dasar menggunakan MockAPI
+         baseUrl: customBaseURL ?? apiBaseURL1,
+
+         // URL dasar menggunakan aplikasi lokal NestJS
+         // baseUrl: 'http://localhost:3000/',
+         connectTimeout: const Duration(seconds: 5), // Waktu timeout untuk koneksi
+         receiveTimeout: const Duration(seconds: 3) // Waktu timeout untuk menerima data
+      )
+   );
+   ```
+2. Integrasi dengan Lokal NestJS API 
+   Buka file `lib/helper/api_client.dart` lalu aktifkan `baseUrl` yang **menggunakan lokal NestJS**
+   ```dart
+   late final Dio dio = Dio(
+      BaseOptions(
+         // URL dasar menggunakan MockAPI
+         // baseUrl: customBaseURL ?? apiBaseURL1,
+
+         // URL dasar menggunakan aplikasi lokal NestJS
+         baseUrl: 'http://localhost:3000/',
+         connectTimeout: const Duration(seconds: 5), // Waktu timeout untuk koneksi
+         receiveTimeout: const Duration(seconds: 3) // Waktu timeout untuk menerima data
+      )
+   );
+   ```
 
 ## Akun Admin
 - Username : admin
