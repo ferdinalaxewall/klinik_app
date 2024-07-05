@@ -2,14 +2,19 @@ import 'package:dio/dio.dart'; // Import package Dio untuk melakukan request HTT
 
 // Class untuk mengelola API client menggunakan Dio
 class ApiClient {
+  ApiClient({ this.customBaseURL });
+  
+  String apiBaseURL1 = 'https://6661bc1c63e6a0189feb5448.mockapi.io/api/v1/';
+  String? customBaseURL;
+
   // Inisialisasi objek Dio dengan konfigurasi dasar
-  final Dio dio = Dio(
+  late final Dio dio = Dio(
     BaseOptions(
       // URL dasar menggunakan MockAPI
-      // baseUrl: 'https://6661bc1c63e6a0189feb5448.mockapi.io/api/v1/',
+      baseUrl: customBaseURL ?? apiBaseURL1,
 
       // URL dasar menggunakan aplikasi lokal NestJS
-      baseUrl: 'http://localhost:3000/',
+      // baseUrl: 'http://localhost:3000/',
       connectTimeout: const Duration(seconds: 5), // Waktu timeout untuk koneksi
       receiveTimeout: const Duration(seconds: 3) // Waktu timeout untuk menerima data
     )
