@@ -6,8 +6,9 @@ import 'package:intl/intl.dart';
 
 final formatter = DateFormat('yyyy/MM/dd');
 
+// Formulir untuk menambah data pasien
 class PasienForm extends StatefulWidget {
-  const PasienForm({super.key});
+  const PasienForm({Key? key});
 
   @override
   State<PasienForm> createState() => _PoliFormState();
@@ -22,6 +23,7 @@ class _PoliFormState extends State<PasienForm> {
 
   DateTime? _selectedDate;
 
+  // Method untuk menampilkan date picker
   void _showDatePicker() async {
     DateTime now = DateTime.now();
     DateTime currentDate = _selectedDate ?? now;
@@ -74,6 +76,7 @@ class _PoliFormState extends State<PasienForm> {
     );
   }
 
+  // Widget untuk input nama pasien
   Widget fieldNama() {
     return TextField(
       decoration: const InputDecoration(labelText: "Nama Pasien"),
@@ -81,6 +84,7 @@ class _PoliFormState extends State<PasienForm> {
     );
   }
 
+  // Widget untuk input nomor RM pasien
   Widget fieldNomorRM() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Nomor RM'),
@@ -89,6 +93,7 @@ class _PoliFormState extends State<PasienForm> {
     );
   }
 
+  // Widget untuk input nomor telepon pasien
   Widget fieldNomorTelp() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Nomor Telepon'),
@@ -97,6 +102,16 @@ class _PoliFormState extends State<PasienForm> {
     );
   }
 
+  // Widget untuk input alamat pasien
+  Widget fieldAlamat() {
+    return TextField(
+      decoration: const InputDecoration(labelText: 'Alamat'),
+      controller: _alamatController,
+      keyboardType: TextInputType.streetAddress,
+    );
+  }
+
+  // Widget untuk input tanggal lahir pasien
   Widget fieldTanggalLahir() {
     return Row(
       children: [
@@ -120,17 +135,11 @@ class _PoliFormState extends State<PasienForm> {
     );
   }
 
-  Widget fieldAlamat() {
-    return TextField(
-      decoration: const InputDecoration(labelText: 'Alamat'),
-      controller: _alamatController,
-      keyboardType: TextInputType.streetAddress,
-    );
-  }
-
+  // Widget untuk tombol simpan
   Widget tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
+        // Validasi input sebelum menyimpan data
         if (_namaController.text.trim().isEmpty ||
             _nomorRMController.text.trim().isEmpty ||
             _alamatController.text.trim().isEmpty ||
@@ -153,6 +162,7 @@ class _PoliFormState extends State<PasienForm> {
           return;
         }
 
+        // Membuat objek Pasien dari inputan pengguna
         Pasien pasien = Pasien(
           nama: _namaController.text.trim(),
           nomorRM: _nomorRMController.text.trim(),
@@ -161,6 +171,7 @@ class _PoliFormState extends State<PasienForm> {
           alamat: _alamatController.text.trim(),
         );
 
+        // Menyimpan data pasien ke dalam database
         await PasienService().simpan(pasien).then((value) {
           Navigator.push(
             context,

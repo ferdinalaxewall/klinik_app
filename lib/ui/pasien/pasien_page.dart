@@ -5,6 +5,7 @@ import 'package:klinik_app/ui/pasien/pasien_item.dart';
 import 'package:klinik_app/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 
+// Halaman untuk menampilkan daftar pasien
 class PasienPage extends StatefulWidget {
   const PasienPage({Key? key}) : super(key: key);
 
@@ -15,6 +16,7 @@ class PasienPage extends StatefulWidget {
 class _PoliPageState extends State<PasienPage> {
   late Stream<List<Pasien>> _poliStream;
 
+  // Method untuk mendapatkan data daftar pasien dari service
   Stream<List<Pasien>> getList() async* {
     List<Pasien> data = await PasienService().listData();
     yield data;
@@ -29,17 +31,17 @@ class _PoliPageState extends State<PasienPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Sidebar(),
+      drawer: const Sidebar(), // Sidebar di sebelah kiri
       appBar: AppBar(
-        title: const Text('Data Pasien'),
+        title: const Text('Data Pasien'), // Judul halaman
         actions: [
           GestureDetector(
-            child: const Icon(Icons.add),
+            child: const Icon(Icons.add), // Tombol tambah data pasien
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const PasienForm(),
+                  builder: (context) => const PasienForm(), // Navigasi ke halaman tambah pasien
                 ),
               );
             },
@@ -50,24 +52,25 @@ class _PoliPageState extends State<PasienPage> {
         stream: _poliStream,
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
+            return Text(snapshot.error.toString()); // Tampilkan pesan jika terjadi error
           }
 
           if (snapshot.connectionState != ConnectionState.done) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(), // Tampilkan indikator loading saat memuat data
             );
           }
 
           if (!snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Kosong');
+            return const Text('Data Kosong'); // Tampilkan pesan jika data kosong
           }
 
+          // Tampilkan daftar pasien dalam ListView
           return ListView.builder(
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
-              return PasienItem(pasien: snapshot.data[index]);
+              return PasienItem(pasien: snapshot.data[index]); // Item pasien
             },
           );
         },

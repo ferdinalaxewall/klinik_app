@@ -8,7 +8,7 @@ final formatter = DateFormat('yyyy/MM/dd');
 
 class PasienUpdateForm extends StatefulWidget {
   final Pasien pasien;
-  const PasienUpdateForm({super.key, required this.pasien});
+  const PasienUpdateForm({Key? key, required this.pasien}) : super(key: key);
 
   @override
   State<PasienUpdateForm> createState() => _PoliUpdateFormState();
@@ -23,6 +23,7 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
 
   DateTime? _selectedDate;
 
+  // Method untuk mengambil data pasien dari service dan mengisi controller
   Future<Pasien> getData() async {
     Pasien data = await PasienService().getById(widget.pasien.id.toString());
     setState(() {
@@ -36,6 +37,7 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
     return data;
   }
 
+  // Method untuk menampilkan date picker
   void _showDatePicker() async {
     DateTime now = DateTime.now();
     DateTime currentDate = _selectedDate ?? now;
@@ -67,23 +69,23 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Ubah Pasien")),
+      appBar: AppBar(title: const Text("Ubah Pasien")), // Judul halaman
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
           child: Column(
             children: [
-              fieldNama(),
+              fieldNama(), // Field untuk nama pasien
               const SizedBox(height: 20),
-              fieldNomorRM(),
+              fieldNomorRM(), // Field untuk nomor RM
               const SizedBox(height: 20),
-              fieldNomorTelp(),
+              fieldNomorTelp(), // Field untuk nomor telepon
               const SizedBox(height: 20),
-              fieldAlamat(),
+              fieldAlamat(), // Field untuk alamat
               const SizedBox(height: 20),
-              fieldTanggalLahir(),
+              fieldTanggalLahir(), // Field untuk tanggal lahir
               const SizedBox(height: 20),
-              tombolSimpan()
+              tombolSimpan() // Tombol untuk menyimpan perubahan
             ],
           ),
         ),
@@ -91,29 +93,51 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
     );
   }
 
+  // Widget untuk field nama
   Widget fieldNama() {
-    return TextField(
+    return TextFormField(
       decoration: const InputDecoration(labelText: "Nama Pasien"),
       controller: _namaController,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Nama Pasien tidak boleh kosong';
+        }
+        return null;
+      },
     );
   }
 
+  // Widget untuk field nomor RM
   Widget fieldNomorRM() {
-    return TextField(
+    return TextFormField(
       decoration: const InputDecoration(labelText: 'Nomor RM'),
       controller: _nomorRMController,
       keyboardType: TextInputType.number,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Nomor RM tidak boleh kosong';
+        }
+        return null;
+      },
     );
   }
 
+  // Widget untuk field nomor telepon
   Widget fieldNomorTelp() {
-    return TextField(
+    return TextFormField(
       decoration: const InputDecoration(labelText: 'Nomor Telepon'),
       controller: _nomorTeleponController,
       keyboardType: TextInputType.phone,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Nomor Telepon tidak boleh kosong';
+        }
+        return null;
+      },
     );
   }
 
+  // Widget untuk field tanggal lahir
   Widget fieldTanggalLahir() {
     return Row(
       children: [
@@ -131,64 +155,51 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
         ),
         IconButton(
           onPressed: _showDatePicker,
-          icon: const Icon(Icons.calendar_month),
+          icon: const Icon(Icons.calendar_today),
         )
       ],
     );
   }
 
+  // Widget untuk field alamat
   Widget fieldAlamat() {
-    return TextField(
+    return TextFormField(
       decoration: const InputDecoration(labelText: 'Alamat'),
       controller: _alamatController,
       keyboardType: TextInputType.streetAddress,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Alamat tidak boleh kosong';
+        }
+        return null;
+      },
     );
   }
 
-  tombolSimpan() {
+  // Widget untuk tombol simpan perubahan
+  Widget tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
-        if (_namaController.text.trim().isEmpty ||
-            _nomorRMController.text.trim().isEmpty ||
-            _alamatController.text.trim().isEmpty ||
-            _nomorTeleponController.text.trim().isEmpty ||
-            _selectedDate == null) {
-          showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-              title: const Text('Input Tidak Valid'),
-              content: const Text('Pastikan Nama Pasien, Nomor RM, Alamat, Nomor Telepon, dan Tanggal Lahir Sudah Terisi!'),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(ctx),
-                  child: const Text('Mengerti'),
-                )
-              ],
-            ),
+        if (formKey.currentState!.validate()) {
+          Pasien pasien = Pasien(
+            id: widget.pasien.id,
+            nama: _namaController.text.trim(),
+            nomorRM: _nomorRMController.text.trim(),
+            nomorTelepon: _nomorTeleponController.text.trim(),
+            tanggalLahir: _selectedDate!,
+            alamat: _alamatController.text.trim(),
           );
 
-          return;
+          await PasienService().ubah(pasien, widget.pasien.id.toString()).then((value) {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PasienDetail(pasien: value),
+              ),
+            );
+          });
         }
-
-        Pasien pasien = Pasien(
-          nama: _namaController.text.trim(),
-          nomorRM: _nomorRMController.text.trim(),
-          nomorTelepon: _nomorTeleponController.text.trim(),
-          tanggalLahir: _selectedDate!,
-          alamat: _alamatController.text.trim(),
-        );
-
-        String id = widget.pasien.id.toString();
-
-        await PasienService().ubah(pasien, id).then((value) {
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PasienDetail(pasien: value),
-            ),
-          );
-        });
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.deepPurple,
