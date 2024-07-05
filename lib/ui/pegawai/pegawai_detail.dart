@@ -56,7 +56,7 @@ class _PoliDetailState extends State<PegawaiDetail> {
 
           // Tampilan detail pegawai
           return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 10),
               Text("Nama Pegawai: ${snapshot.data!.nama}"), // Menampilkan nama pegawai
