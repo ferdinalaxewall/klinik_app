@@ -4,11 +4,14 @@ import 'package:klinik_app/ui/pegawai/pegawai_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+// Format tanggal yang akan digunakan dalam form
 final formatter = DateFormat('yyyy/MM/dd');
 
+// Form untuk mengubah data pegawai
 class PegawaiUpdateForm extends StatefulWidget {
   final Pegawai pegawai;
-  const PegawaiUpdateForm({super.key, required this.pegawai});
+
+  const PegawaiUpdateForm({Key? key, required this.pegawai}) : super(key: key);
 
   @override
   State<PegawaiUpdateForm> createState() => _PoliUpdateFormState();
@@ -20,10 +23,11 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
   final _nipController = TextEditingController();
   final _nomorTeleponController = TextEditingController();
   final _emailController = TextEditingController();
-  final _passwordController =  TextEditingController();
+  final _passwordController = TextEditingController();
 
   DateTime? _selectedDate;
 
+  // Mendapatkan data pegawai dari service dan menampilkan pada form
   Future<Pegawai> getData() async {
     Pegawai data = await PegawaiService().getById(widget.pegawai.id.toString());
     setState(() {
@@ -38,6 +42,7 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
     return data;
   }
 
+  // Menampilkan date picker untuk memilih tanggal lahir
   void _showDatePicker() async {
     DateTime now = DateTime.now();
     DateTime currentDate = _selectedDate ?? now;
@@ -95,6 +100,7 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
     );
   }
 
+  // Widget untuk input field Nama Pegawai
   Widget fieldNama() {
     return TextField(
       decoration: const InputDecoration(labelText: "Nama Pegawai"),
@@ -102,6 +108,7 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
     );
   }
 
+  // Widget untuk input field NIP
   Widget fieldNip() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Nomor Induk Pegawai (NIP)'),
@@ -110,6 +117,7 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
     );
   }
 
+  // Widget untuk input field Nomor Telepon
   Widget fieldNomorTelp() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Nomor Telepon'),
@@ -118,6 +126,7 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
     );
   }
 
+  // Widget untuk input field Tanggal Lahir dengan date picker
   Widget fieldTanggalLahir() {
     return Row(
       children: [
@@ -141,26 +150,29 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
     );
   }
 
+  // Widget untuk input field Email
   Widget fieldEmail() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Alamat'),
+      decoration: const InputDecoration(labelText: 'Email'),
       controller: _emailController,
-      keyboardType: TextInputType.streetAddress,
+      keyboardType: TextInputType.emailAddress,
     );
   }
 
+  // Widget untuk input field Password
   Widget fieldPassword() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Alamat'),
+      decoration: const InputDecoration(labelText: 'Password'),
       controller: _passwordController,
-      keyboardType: TextInputType.visiblePassword,
       obscureText: true,
     );
   }
 
-  tombolSimpan() {
+  // Widget untuk tombol Simpan Perubahan
+  Widget tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
+        // Validasi input sebelum menyimpan perubahan
         if (_namaController.text.trim().isEmpty ||
             _nipController.text.trim().isEmpty ||
             _emailController.text.trim().isEmpty ||
@@ -183,18 +195,20 @@ class _PoliUpdateFormState extends State<PegawaiUpdateForm> {
           return;
         }
 
+        // Membuat objek pegawai baru dari input form
         Pegawai pegawai = Pegawai(
           nama: _namaController.text.trim(),
           nip: _nipController.text.trim(),
           nomorTelepon: _nomorTeleponController.text.trim(),
           tanggalLahir: _selectedDate!,
           email: _emailController.text.trim(),
-          password: _passwordController.text.trim()
+          password: _passwordController.text.trim(),
         );
 
+        // Mengirim data perubahan ke service untuk diubah di database
         String id = widget.pegawai.id.toString();
-
         await PegawaiService().ubah(pegawai, id).then((value) {
+          // Kembali ke halaman detail pegawai setelah berhasil menyimpan
           Navigator.pop(context);
           Navigator.push(
             context,

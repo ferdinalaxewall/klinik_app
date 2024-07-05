@@ -1,13 +1,13 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:klinik_app/model/pegawai.dart';
 import 'package:klinik_app/service/pegawai_service.dart';
 import 'package:klinik_app/ui/pegawai/pegawai_detail.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-final formatter = DateFormat('yyyy/MM/dd');
+final formatter = DateFormat('yyyy/MM/dd'); // Format tanggal untuk ditampilkan
 
 class PegawaiForm extends StatefulWidget {
-  const PegawaiForm({super.key});
+  const PegawaiForm({Key? key});
 
   @override
   State<PegawaiForm> createState() => _PoliFormState();
@@ -21,8 +21,9 @@ class _PoliFormState extends State<PegawaiForm> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  DateTime? _selectedDate;
+  DateTime? _selectedDate; // Untuk menyimpan tanggal yang dipilih
 
+  // Method untuk menampilkan date picker
   void _showDatePicker() async {
     DateTime now = DateTime.now();
     DateTime currentDate = _selectedDate ?? now;
@@ -56,19 +57,19 @@ class _PoliFormState extends State<PegawaiForm> {
             key: formKey,
             child: Column(
               children: [
-                fieldNama(),
+                fieldNama(), // Widget input nama
                 const SizedBox(height: 20),
-                fieldNIP(),
+                fieldNIP(), // Widget input NIP
                 const SizedBox(height: 20),
-                fieldNomorTelp(),
+                fieldNomorTelp(), // Widget input nomor telepon
                 const SizedBox(height: 20),
-                fieldTanggalLahir(),
+                fieldTanggalLahir(), // Widget input tanggal lahir
                 const SizedBox(height: 20),
-                fieldEmail(),
+                fieldEmail(), // Widget input email
                 const SizedBox(height: 20),
-                fieldPassword(),
+                fieldPassword(), // Widget input password
                 const SizedBox(height: 20),
-                tombolSimpan()
+                tombolSimpan() // Tombol untuk menyimpan data pegawai baru
               ],
             ),
           ),
@@ -77,6 +78,7 @@ class _PoliFormState extends State<PegawaiForm> {
     );
   }
 
+  // Widget untuk input nama pegawai
   Widget fieldNama() {
     return TextField(
       decoration: const InputDecoration(labelText: "Nama Pegawai"),
@@ -84,6 +86,7 @@ class _PoliFormState extends State<PegawaiForm> {
     );
   }
 
+  // Widget untuk input NIP pegawai
   Widget fieldNIP() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Nomor Induk Pegawai (NIP)'),
@@ -92,6 +95,7 @@ class _PoliFormState extends State<PegawaiForm> {
     );
   }
 
+  // Widget untuk input nomor telepon pegawai
   Widget fieldNomorTelp() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Nomor Telepon'),
@@ -100,13 +104,14 @@ class _PoliFormState extends State<PegawaiForm> {
     );
   }
 
+  // Widget untuk input tanggal lahir pegawai
   Widget fieldTanggalLahir() {
     return Row(
       children: [
         Text(
           _selectedDate == null
               ? 'Pilih Tanggal Lahir'
-              : formatter.format(_selectedDate!),
+              : formatter.format(_selectedDate!), // Menampilkan tanggal yang dipilih dalam format yang telah ditentukan
           style: const TextStyle(
             fontSize: 16,
             color: Colors.black87,
@@ -116,13 +121,14 @@ class _PoliFormState extends State<PegawaiForm> {
           width: 10,
         ),
         IconButton(
-          onPressed: _showDatePicker,
+          onPressed: _showDatePicker, // Memanggil method untuk menampilkan date picker
           icon: const Icon(Icons.calendar_month),
         )
       ],
     );
   }
 
+  // Widget untuk input email pegawai
   Widget fieldEmail() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Email'),
@@ -131,6 +137,7 @@ class _PoliFormState extends State<PegawaiForm> {
     );
   }
 
+  // Widget untuk input password pegawai
   Widget fieldPassword() {
     return TextField(
       decoration: const InputDecoration(labelText: 'Password'),
@@ -140,9 +147,11 @@ class _PoliFormState extends State<PegawaiForm> {
     );
   }
 
+  // Widget untuk tombol simpan
   Widget tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
+        // Validasi input sebelum menyimpan
         if (_namaController.text.trim().isEmpty ||
             _nipController.text.trim().isEmpty ||
             _emailController.text.trim().isEmpty ||
@@ -165,6 +174,7 @@ class _PoliFormState extends State<PegawaiForm> {
           return;
         }
 
+        // Membuat objek pegawai baru dari inputan pengguna
         Pegawai pegawai = Pegawai(
           nama: _namaController.text.trim(),
           nip: _nipController.text.trim(),
@@ -174,11 +184,12 @@ class _PoliFormState extends State<PegawaiForm> {
           password: _passwordController.text.trim()
         );
 
+        // Menyimpan data pegawai menggunakan service
         await PegawaiService().simpan(pegawai).then((value) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PegawaiDetail(pegawai: value),
+              builder: (context) => PegawaiDetail(pegawai: value), // Beralih ke halaman detail pegawai setelah berhasil menyimpan
             ),
           );
         });
