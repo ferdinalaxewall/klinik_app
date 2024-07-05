@@ -4,6 +4,7 @@ import 'package:klinik_app/ui/poli/poli_page.dart';
 import 'package:klinik_app/ui/poli/poli_update_form.dart';
 import 'package:flutter/material.dart';
 
+// Stateful widget untuk menampilkan detail poli
 class PoliDetail extends StatefulWidget {
   final Poli poli;
 
@@ -14,6 +15,7 @@ class PoliDetail extends StatefulWidget {
 }
 
 class _PoliDetailState extends State<PoliDetail> {
+  // Fungsi untuk mengambil data poli dari service
   Stream<Poli> getData() async* {
     Poli data = await PoliService().getById(widget.poli.id.toString());
     yield data;
@@ -21,44 +23,51 @@ class _PoliDetailState extends State<PoliDetail> {
 
   @override
   Widget build(BuildContext context) {
+    // Scaffold untuk struktur dasar halaman
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Detail Poli"),
-        ),
-        body: StreamBuilder(
-          stream: getData(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
+      appBar: AppBar(
+        title: const Text("Detail Poli"),
+      ),
+      body: StreamBuilder(
+        stream: getData(),
+        builder: (context, AsyncSnapshot snapshot) {
+          // Menampilkan pesan error jika ada
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
 
-            if (snapshot.connectionState != ConnectionState.done) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-
-            if (!snapshot.hasData &&
-                snapshot.connectionState == ConnectionState.done) {
-              return const Text('Data Tidak Ditemukan');
-            }
-
-            return Column(
-              children: [
-                const SizedBox(height: 20),
-                Text("Nama Poli: ${snapshot.data.namaPoli}"),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [tombolUbah(), tombolHapus()],
-                )
-              ],
+          // Menampilkan loading indicator jika data belum selesai diambil
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        ));
+          }
+
+          // Menampilkan pesan jika data tidak ditemukan
+          if (!snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            return const Text('Data Tidak Ditemukan');
+          }
+
+          // Menampilkan detail data poli dan tombol untuk ubah dan hapus
+          return Column(
+            children: [
+              const SizedBox(height: 20),
+              Text("Nama Poli: ${snapshot.data.namaPoli}"),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [tombolUbah(), tombolHapus()],
+              ),
+            ],
+          );
+        },
+      ),
+    );
   }
 
-  tombolUbah() {
+  // Widget tombol untuk mengubah data poli
+  Widget tombolUbah() {
     return StreamBuilder(
       stream: getData(),
       builder: (context, AsyncSnapshot snapshot) => ElevatedButton(
@@ -88,7 +97,8 @@ class _PoliDetailState extends State<PoliDetail> {
     );
   }
 
-  tombolHapus() {
+  // Widget tombol untuk menghapus data poli
+  Widget tombolHapus() {
     return ElevatedButton(
       onPressed: () {
         AlertDialog alertDialog = AlertDialog(
@@ -131,7 +141,7 @@ class _PoliDetailState extends State<PoliDetail> {
                 foregroundColor: Colors.white,
               ),
               child: const Text("Tidak"),
-            )
+            ),
           ],
         );
 
@@ -152,7 +162,7 @@ class _PoliDetailState extends State<PoliDetail> {
           ),
           Text(
             'Hapus',
-          )
+          ),
         ],
       ),
     );

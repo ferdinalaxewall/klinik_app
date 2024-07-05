@@ -3,6 +3,7 @@ import 'package:klinik_app/service/poli_service.dart';
 import 'package:klinik_app/ui/poli/poli_detail.dart';
 import 'package:flutter/material.dart';
 
+// Stateful widget untuk form penambahan data poli
 class PoliForm extends StatefulWidget {
   const PoliForm({super.key});
 
@@ -11,21 +12,22 @@ class PoliForm extends StatefulWidget {
 }
 
 class _PoliFormState extends State<PoliForm> {
-  final formKey = GlobalKey<FormState>();
-  final namaPoliController = TextEditingController();
+  final formKey = GlobalKey<FormState>(); // Kunci untuk form
+  final namaPoliController = TextEditingController(); // Controller untuk field nama poli
 
   @override
   Widget build(BuildContext context) {
+    // Scaffold untuk struktur dasar halaman
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Poli")),
+      appBar: AppBar(title: const Text("Tambah Poli")), // AppBar dengan judul halaman
       body: SingleChildScrollView(
         child: Form(
-          key: formKey,
+          key: formKey, // Menggunakan kunci form
           child: Column(
             children: [
-              fieldNamaPoli(),
+              fieldNamaPoli(), // Field untuk input nama poli
               const SizedBox(height: 20),
-              tombolSimpan()
+              tombolSimpan() // Tombol untuk menyimpan data
             ],
           ),
         ),
@@ -33,16 +35,19 @@ class _PoliFormState extends State<PoliForm> {
     );
   }
 
-  fieldNamaPoli() {
+  // Widget untuk field input nama poli
+  Widget fieldNamaPoli() {
     return TextField(
       decoration: const InputDecoration(labelText: "Nama Poli"),
       controller: namaPoliController,
     );
   }
 
-  tombolSimpan() {
+  // Widget untuk tombol simpan
+  Widget tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
+        // Validasi input
         if (namaPoliController.text.trim().isEmpty) {
           showDialog(
             context: context,
@@ -61,8 +66,10 @@ class _PoliFormState extends State<PoliForm> {
           return;
         }
 
+        // Membuat objek poli dan menyimpannya melalui service
         Poli poli = Poli(namaPoli: namaPoliController.text);
         await PoliService().simpan(poli).then((value) {
+          // Navigasi ke halaman detail poli setelah data disimpan
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => PoliDetail(poli: value)),
