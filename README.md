@@ -76,6 +76,11 @@ Dalam aplikasi ini anda dapat menggunakan API/Backend dengan 2 Tipe Integrasi (M
       )
    );
    ```
+
+   Karena menggunakan MockAPI versi gratis dibatasi 2 resource per-project, maka untuk endpoint/URL mockapi dibagi menjadi 2
+   - Untuk endpoint pertama (poli & jadwal_dokter) anda bisa menggantinya di file `lib/helper/api_client.dart` pada variable `apiBaseURL1`
+   - Untuk endpoint kedua (pasien & pegawai) anda bisa menggantinya di file `lib/service/pasien_service.dart` dan `lib/service/pegawai_service.dart` pada variable `apiBaseURL`
+
 2. Integrasi dengan Lokal NestJS API 
    Buka file `lib/helper/api_client.dart` lalu aktifkan `baseUrl` yang **menggunakan lokal NestJS**
    ```dart
