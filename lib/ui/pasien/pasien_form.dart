@@ -49,10 +49,15 @@ class _PoliFormState extends State<PasienForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Pasien")),
+      appBar: AppBar(
+        title: const Text("Tambah Pasien"),
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
           child: Form(
             key: formKey,
             child: Column(
@@ -67,7 +72,10 @@ class _PoliFormState extends State<PasienForm> {
                 const SizedBox(height: 20),
                 fieldTanggalLahir(),
                 const SizedBox(height: 20),
-                tombolSimpan()
+                SizedBox(
+                  width: double.infinity,
+                  child: tombolSimpan(),
+                )
               ],
             ),
           ),
@@ -79,7 +87,12 @@ class _PoliFormState extends State<PasienForm> {
   // Widget untuk input nama pasien
   Widget fieldNama() {
     return TextField(
-      decoration: const InputDecoration(labelText: "Nama Pasien"),
+      decoration: const InputDecoration(
+        labelText: "Nama Pasien",
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _namaController,
     );
   }
@@ -87,7 +100,12 @@ class _PoliFormState extends State<PasienForm> {
   // Widget untuk input nomor RM pasien
   Widget fieldNomorRM() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Nomor RM'),
+      decoration: const InputDecoration(
+        labelText: 'Nomor RM',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _nomorRMController,
       keyboardType: TextInputType.number,
     );
@@ -96,7 +114,12 @@ class _PoliFormState extends State<PasienForm> {
   // Widget untuk input nomor telepon pasien
   Widget fieldNomorTelp() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Nomor Telepon'),
+      decoration: const InputDecoration(
+        labelText: 'Nomor Telepon',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _nomorTeleponController,
       keyboardType: TextInputType.phone,
     );
@@ -105,7 +128,12 @@ class _PoliFormState extends State<PasienForm> {
   // Widget untuk input alamat pasien
   Widget fieldAlamat() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Alamat'),
+      decoration: const InputDecoration(
+        labelText: 'Alamat',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _alamatController,
       keyboardType: TextInputType.streetAddress,
     );
@@ -113,24 +141,38 @@ class _PoliFormState extends State<PasienForm> {
 
   // Widget untuk input tanggal lahir pasien
   Widget fieldTanggalLahir() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          _selectedDate == null
-              ? 'Pilih Tanggal Lahir'
-              : formatter.format(_selectedDate!),
-          style: const TextStyle(
+        const Text(
+          'Tanggal Lahir:',
+          style: TextStyle(
             fontSize: 16,
-            color: Colors.black87,
           ),
         ),
         const SizedBox(
-          width: 10,
+          height: 5,
         ),
-        IconButton(
-          onPressed: _showDatePicker,
-          icon: const Icon(Icons.calendar_month),
-        )
+        Row(
+          children: [
+            Text(
+              _selectedDate == null
+                  ? 'Pilih Tanggal Lahir'
+                  : formatter.format(_selectedDate!),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed: _showDatePicker,
+              icon: const Icon(Icons.calendar_month),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -149,7 +191,8 @@ class _PoliFormState extends State<PasienForm> {
             context: context,
             builder: (ctx) => AlertDialog(
               title: const Text('Input Tidak Valid'),
-              content: const Text('Pastikan Nama Pasien, Nomor RM, Alamat, Nomor Telepon, dan Tanggal Lahir Sudah Terisi!'),
+              content: const Text(
+                  'Pastikan Nama Pasien, Nomor RM, Alamat, Nomor Telepon, dan Tanggal Lahir Sudah Terisi!'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
@@ -173,7 +216,7 @@ class _PoliFormState extends State<PasienForm> {
 
         // Menyimpan data pasien ke dalam database
         await PasienService().simpan(pasien).then((value) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => PasienDetail(pasien: value),
@@ -181,11 +224,40 @@ class _PoliFormState extends State<PasienForm> {
           );
         });
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
+          ),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
-      child: const Text("Simpan"),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.add,
+            size: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Tambah Pasien',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

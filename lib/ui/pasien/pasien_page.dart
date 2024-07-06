@@ -48,32 +48,38 @@ class _PoliPageState extends State<PasienPage> {
           )
         ],
       ),
-      body: StreamBuilder(
-        stream: _poliStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString()); // Tampilkan pesan jika terjadi error
-          }
-
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(), // Tampilkan indikator loading saat memuat data
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+        ),
+        child: StreamBuilder(
+          stream: _poliStream,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString()); // Tampilkan pesan jika terjadi error
+            }
+        
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(), // Tampilkan indikator loading saat memuat data
+              );
+            }
+        
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return const Text('Data Kosong'); // Tampilkan pesan jika data kosong
+            }
+        
+            // Tampilkan daftar pasien dalam ListView
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return PasienItem(pasien: snapshot.data[index]); // Item pasien
+              },
             );
-          }
-
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Kosong'); // Tampilkan pesan jika data kosong
-          }
-
-          // Tampilkan daftar pasien dalam ListView
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return PasienItem(pasien: snapshot.data[index]); // Item pasien
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

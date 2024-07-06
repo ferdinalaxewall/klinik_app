@@ -71,22 +71,31 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
     return Scaffold(
       appBar: AppBar(title: const Text("Ubah Pasien")), // Judul halaman
       body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              fieldNama(), // Field untuk nama pasien
-              const SizedBox(height: 20),
-              fieldNomorRM(), // Field untuk nomor RM
-              const SizedBox(height: 20),
-              fieldNomorTelp(), // Field untuk nomor telepon
-              const SizedBox(height: 20),
-              fieldAlamat(), // Field untuk alamat
-              const SizedBox(height: 20),
-              fieldTanggalLahir(), // Field untuk tanggal lahir
-              const SizedBox(height: 20),
-              tombolSimpan() // Tombol untuk menyimpan perubahan
-            ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                fieldNama(), // Field untuk nama pasien
+                const SizedBox(height: 20),
+                fieldNomorRM(), // Field untuk nomor RM
+                const SizedBox(height: 20),
+                fieldNomorTelp(), // Field untuk nomor telepon
+                const SizedBox(height: 20),
+                fieldAlamat(), // Field untuk alamat
+                const SizedBox(height: 20),
+                fieldTanggalLahir(), // Field untuk tanggal lahir
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: tombolSimpan(),
+                ) // Tombol untuk menyimpan perubahan
+              ],
+            ),
           ),
         ),
       ),
@@ -96,7 +105,12 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
   // Widget untuk field nama
   Widget fieldNama() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Nama Pasien"),
+      decoration: const InputDecoration(
+        labelText: "Nama Pasien",
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _namaController,
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -110,7 +124,12 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
   // Widget untuk field nomor RM
   Widget fieldNomorRM() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Nomor RM'),
+      decoration: const InputDecoration(
+        labelText: 'Nomor RM',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _nomorRMController,
       keyboardType: TextInputType.number,
       validator: (value) {
@@ -125,7 +144,12 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
   // Widget untuk field nomor telepon
   Widget fieldNomorTelp() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Nomor Telepon'),
+      decoration: const InputDecoration(
+        labelText: 'Nomor Telepon',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _nomorTeleponController,
       keyboardType: TextInputType.phone,
       validator: (value) {
@@ -139,24 +163,38 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
 
   // Widget untuk field tanggal lahir
   Widget fieldTanggalLahir() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          _selectedDate == null
-              ? 'Pilih Tanggal Lahir'
-              : formatter.format(_selectedDate!),
-          style: const TextStyle(
+        const Text(
+          'Tanggal Lahir:',
+          style: TextStyle(
             fontSize: 16,
-            color: Colors.black87,
           ),
         ),
         const SizedBox(
-          width: 10,
+          height: 5,
         ),
-        IconButton(
-          onPressed: _showDatePicker,
-          icon: const Icon(Icons.calendar_today),
-        )
+        Row(
+          children: [
+            Text(
+              _selectedDate == null
+                  ? 'Pilih Tanggal Lahir'
+                  : formatter.format(_selectedDate!),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed: _showDatePicker,
+              icon: const Icon(Icons.calendar_month),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -164,7 +202,12 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
   // Widget untuk field alamat
   Widget fieldAlamat() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Alamat'),
+      decoration: const InputDecoration(
+        labelText: 'Alamat',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _alamatController,
       keyboardType: TextInputType.streetAddress,
       validator: (value) {
@@ -190,9 +233,11 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
             alamat: _alamatController.text.trim(),
           );
 
-          await PasienService().ubah(pasien, widget.pasien.id.toString()).then((value) {
+          await PasienService()
+              .ubah(pasien, widget.pasien.id.toString())
+              .then((value) {
             Navigator.pop(context);
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
                 builder: (context) => PasienDetail(pasien: value),
@@ -201,11 +246,40 @@ class _PoliUpdateFormState extends State<PasienUpdateForm> {
           });
         }
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
+          ),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
-      child: const Text("Simpan Perubahan"),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.save_outlined,
+            size: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Simpan Perubahan',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

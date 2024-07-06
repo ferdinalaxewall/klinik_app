@@ -27,45 +27,147 @@ class _PoliDetailState extends State<PasienDetail> {
       appBar: AppBar(
         title: const Text("Detail Pasien"),
       ),
-      body: StreamBuilder(
-        stream: getData(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        child: StreamBuilder(
+          stream: getData(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
 
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return const Text('Data Tidak Ditemukan');
+            }
+
+            // Menampilkan detail pasien
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+
+                // Menampilkan Nama Pasien
+                Text(
+                  snapshot.data!.nama,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan Nomor RM Pasien
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.discount_outlined,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      snapshot.data!.nomorRM,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Menampilkan Nomor Telepon Pasien
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.call,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.nomorTelepon),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan Tanggal Lahir Pasien
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.calendar_month,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.formattedTanggalLahir),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan Alamat Pasien
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.pin_drop_outlined,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.alamat),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 40,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: tombolUbah(),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: tombolHapus(),
+                    ),
+                  ],
+                )
+              ],
             );
-          }
-
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Tidak Ditemukan');
-          }
-
-          // Menampilkan detail pasien
-          return Column(
-            children: [
-              const SizedBox(height: 10),
-              Text("Nama Pasien: ${snapshot.data.nama}"),
-              const SizedBox(height: 10),
-              Text("Nomor RM: ${snapshot.data.nomorRM}"),
-              const SizedBox(height: 10),
-              Text("Nomor Telepon: ${snapshot.data.nomorTelepon}"),
-              const SizedBox(height: 10),
-              Text("Alamat: ${snapshot.data.alamat}"),
-              const SizedBox(height: 10),
-              Text("Tanggal Lahir: ${snapshot.data.formattedTanggalLahir}"),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [tombolUbah(), tombolHapus()],
-              )
-            ],
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -83,17 +185,28 @@ class _PoliDetailState extends State<PasienDetail> {
             ),
           );
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          backgroundColor: WidgetStateProperty.all(Colors.green),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          ),
         ),
         child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.edit_outlined,
               size: 15,
             ),
-            SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
             Text('Ubah')
           ],
         ),
@@ -153,11 +266,20 @@ class _PoliDetailState extends State<PasienDetail> {
 
         showDialog(context: context, builder: (context) => alertDialog);
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        backgroundColor: WidgetStateProperty.all(Colors.red),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        ),
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.delete_outline_rounded,
@@ -168,7 +290,7 @@ class _PoliDetailState extends State<PasienDetail> {
           ),
           Text(
             'Hapus',
-          )
+          ),
         ],
       ),
     );

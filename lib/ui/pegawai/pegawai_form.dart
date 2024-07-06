@@ -233,12 +233,12 @@ class _PoliFormState extends State<PegawaiForm> {
 
         // Menyimpan data pegawai menggunakan service
         await PegawaiService().simpan(pegawai).then((value) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => PegawaiDetail(
-                  pegawai:
-                      value), // Beralih ke halaman detail pegawai setelah berhasil menyimpan
+                pegawai: value,
+              ), // Beralih ke halaman detail pegawai setelah berhasil menyimpan
             ),
           );
         });

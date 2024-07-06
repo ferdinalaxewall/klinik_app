@@ -191,7 +191,8 @@ class _PoliDetailState extends State<PegawaiDetail> {
           context,
           MaterialPageRoute(
             builder: (context) => PegawaiUpdateForm(
-                pegawai: pegawai), // Beralih ke halaman update data pegawai
+              pegawai: pegawai,
+            ), // Beralih ke halaman update data pegawai
           ),
         );
       },
