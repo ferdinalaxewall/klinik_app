@@ -14,13 +14,17 @@ class PoliUpdateForm extends StatefulWidget {
 
 class _PoliUpdateFormState extends State<PoliUpdateForm> {
   final formKey = GlobalKey<FormState>();
-  final namaPoliController = TextEditingController();
+  final _namaPoliController = TextEditingController();
+  final _deskripsiPoliController = TextEditingController();
 
   // Method untuk mengambil data Poli berdasarkan id
   Future<Poli> getData() async {
     Poli data = await PoliService().getById(widget.poli.id.toString());
     setState(() {
-      namaPoliController.text = data.namaPoli; // Mengatur nilai controller dengan nama Poli yang ada
+      _namaPoliController.text =
+          data.namaPoli; // Mengatur nilai controller dengan nama Poli yang ada
+      _deskripsiPoliController.text = data
+          .deskripsi; // Mengatur nilai controller dengan deskripsi Poli yang ada
     });
 
     return data;
@@ -37,14 +41,22 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
     return Scaffold(
       appBar: AppBar(title: const Text("Ubah Poli")), // Judul halaman
       body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              fieldNamaPoli(), // Widget input nama Poli
-              const SizedBox(height: 20),
-              tombolSimpan() // Widget tombol simpan perubahan
-            ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                fieldNamaPoli(), // Widget input nama Poli
+                const SizedBox(height: 20),
+                fieldDeskripsiPoli(), // Widget input deskripsi Poli
+                const SizedBox(height: 20),
+                tombolSimpan() // Widget tombol simpan perubahan
+              ],
+            ),
           ),
         ),
       ),
@@ -54,8 +66,26 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
   // Widget untuk input nama Poli
   Widget fieldNamaPoli() {
     return TextField(
-      decoration: const InputDecoration(labelText: "Nama Poli"),
-      controller: namaPoliController,
+      decoration: const InputDecoration(
+        labelText: "Nama Poli",
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
+      controller: _namaPoliController,
+    );
+  }
+
+  // Widget untuk input deskripsi Poli
+  Widget fieldDeskripsiPoli() {
+    return TextField(
+      decoration: const InputDecoration(
+        labelText: "Deskripsi",
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
+      controller: _deskripsiPoliController,
     );
   }
 
@@ -63,7 +93,7 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
   Widget tombolSimpan() {
     return ElevatedButton(
       onPressed: () async {
-        if (namaPoliController.text.trim().isEmpty) {
+        if (_namaPoliController.text.trim().isEmpty) {
           // Menampilkan dialog jika input nama Poli kosong
           showDialog(
             context: context,
@@ -81,24 +111,60 @@ class _PoliUpdateFormState extends State<PoliUpdateForm> {
           return;
         }
 
-        Poli poli = Poli(namaPoli: namaPoliController.text); // Membuat objek Poli baru dengan nama dari input
-        String id = widget.poli.id.toString(); // Mendapatkan id Poli yang akan diubah
+        // Membuat objek Poli baru dengan nama dari input
+        Poli poli = Poli(
+          namaPoli: _namaPoliController.text.trim(),
+          deskripsi: _deskripsiPoliController.text.trim(),
+        );
+
+        String id =
+            widget.poli.id.toString(); // Mendapatkan id Poli yang akan diubah
 
         await PoliService().ubah(poli, id).then((value) {
           Navigator.pop(context); // Menutup halaman form update Poli
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => PoliDetail(poli: value), // Navigasi ke halaman detail Poli setelah berhasil diubah
+              builder: (context) => PoliDetail(
+                poli: value,
+              ), // Navigasi ke halaman detail Poli setelah berhasil diubah
             ),
           );
         });
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
-      ),
-      child: const Text("Simpan Perubahan"),
+      },style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 20,
+            ),
+          ),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.save_outlined,
+              size: 20,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Simpan Perubahan',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
     );
   }
 }

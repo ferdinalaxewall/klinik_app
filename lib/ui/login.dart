@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
                           const SizedBox(height: 20),
                           // Field untuk input password
                           passwordTextField(),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 20),
                           // Tombol untuk login
                           tombolLogin()
                         ],
@@ -67,7 +67,12 @@ class _LoginState extends State<Login> {
   // Widget untuk field input username
   Widget usernameTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Username'),
+      decoration: const InputDecoration(
+        labelText: 'Username',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: usernameCtrl,
     );
   }
@@ -75,7 +80,15 @@ class _LoginState extends State<Login> {
   // Widget untuk field input password
   Widget passwordTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: 'Password'),
+      decoration: const InputDecoration(
+        labelText: 'Password',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2,
+            color: Colors.deepPurple,
+          ),
+        ),
+      ),
       obscureText: true, // Menyembunyikan teks password
       controller: passwordCtrl,
     );
@@ -128,11 +141,40 @@ class _LoginState extends State<Login> {
             }
           });
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.deepPurple,
-          foregroundColor: Colors.white,
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 20,
+            ),
+          ),
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
         ),
-        child: const Text('Login'),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.login,
+              size: 20,
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              'Login',
+              style: TextStyle(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

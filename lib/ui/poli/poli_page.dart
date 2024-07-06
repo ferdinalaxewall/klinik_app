@@ -44,32 +44,42 @@ class _PoliPageState extends State<PoliPage> {
           )
         ],
       ),
-      body: StreamBuilder(
-        stream: _poliStream, // Menggunakan StreamBuilder untuk data Poli
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString()); // Menampilkan pesan error jika terjadi
-          }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+        ),
+        child: StreamBuilder(
+          stream: _poliStream, // Menggunakan StreamBuilder untuk data Poli
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error
+                  .toString()); // Menampilkan pesan error jika terjadi
+            }
 
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(), // Menampilkan indikator loading jika belum selesai fetching data
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child:
+                    CircularProgressIndicator(), // Menampilkan indikator loading jika belum selesai fetching data
+              );
+            }
+
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return const Text(
+                  'Data Kosong'); // Menampilkan pesan jika data kosong
+            }
+
+            // Menampilkan daftar Poli dalam ListView
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return PoliItem(
+                    poli: snapshot.data[index]); // Menampilkan item Poli
+              },
             );
-          }
-
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Kosong'); // Menampilkan pesan jika data kosong
-          }
-
-          // Menampilkan daftar Poli dalam ListView
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return PoliItem(poli: snapshot.data[index]); // Menampilkan item Poli
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

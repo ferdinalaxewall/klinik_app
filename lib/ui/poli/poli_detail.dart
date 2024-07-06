@@ -28,40 +28,75 @@ class _PoliDetailState extends State<PoliDetail> {
       appBar: AppBar(
         title: const Text("Detail Poli"),
       ),
-      body: StreamBuilder(
-        stream: getData(),
-        builder: (context, AsyncSnapshot snapshot) {
-          // Menampilkan pesan error jika ada
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        child: StreamBuilder(
+          stream: getData(),
+          builder: (context, AsyncSnapshot snapshot) {
+            // Menampilkan pesan error jika ada
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
 
-          // Menampilkan loading indicator jika data belum selesai diambil
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            // Menampilkan loading indicator jika data belum selesai diambil
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            // Menampilkan pesan jika data tidak ditemukan
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return const Text('Data Tidak Ditemukan');
+            }
+
+            // Menampilkan detail data poli dan tombol untuk ubah dan hapus
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
+                Text(
+                  snapshot.data.namaPoli,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  snapshot.data.deskripsi,
+                  style: const TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                ),
+                const SizedBox(
+                  height: 59,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: tombolUbah(),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: tombolHapus(),
+                    ),
+                  ],
+                ),
+              ],
             );
-          }
-
-          // Menampilkan pesan jika data tidak ditemukan
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Tidak Ditemukan');
-          }
-
-          // Menampilkan detail data poli dan tombol untuk ubah dan hapus
-          return Column(
-            children: [
-              const SizedBox(height: 20),
-              Text("Nama Poli: ${snapshot.data.namaPoli}"),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [tombolUbah(), tombolHapus()],
-              ),
-            ],
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -79,17 +114,28 @@ class _PoliDetailState extends State<PoliDetail> {
             ),
           );
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          backgroundColor: WidgetStateProperty.all(Colors.green),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          ),
         ),
         child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.edit_outlined,
               size: 15,
             ),
-            SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
             Text('Ubah')
           ],
         ),
@@ -147,11 +193,20 @@ class _PoliDetailState extends State<PoliDetail> {
 
         showDialog(context: context, builder: (context) => alertDialog);
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        backgroundColor: WidgetStateProperty.all(Colors.red),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        ),
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.delete_outline_rounded,

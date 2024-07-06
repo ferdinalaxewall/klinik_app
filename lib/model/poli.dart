@@ -3,11 +3,13 @@ class Poli {
   // Deklarasi atribut untuk class Poli
   String? id;
   String namaPoli;
+  String deskripsi;
 
   // Konstruktor untuk class Poli
   Poli({
     this.id,
     required this.namaPoli,
+    required this.deskripsi
   });
 
   // Factory method untuk membuat instance Poli dari JSON
@@ -15,6 +17,7 @@ class Poli {
     return Poli(
       id: json['id'].toString(), // Konversi id dari JSON ke String
       namaPoli: json['nama_poli'], // Ambil nama poli dari JSON
+      deskripsi: json['deskripsi'] // Ambil deskripsi poli dari JSON
     );
   }
 
@@ -22,6 +25,7 @@ class Poli {
   Map<String, dynamic> toJson() {
     return {
       "nama_poli": namaPoli, // Set nama poli ke JSON
+      "deskripsi": deskripsi
     };
   }
 }

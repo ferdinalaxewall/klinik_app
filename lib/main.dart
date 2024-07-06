@@ -13,7 +13,11 @@ Future<void> main() async {
       home: token != null ? Beranda() : Login(),
       theme: ThemeData(
         useMaterial3: true,
-        fontFamily: 'Nunito'
+        fontFamily: 'Nunito',
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: Colors.white
+        )
       ),
       debugShowCheckedModeBanner: false,
     )
