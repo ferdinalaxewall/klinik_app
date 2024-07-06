@@ -166,13 +166,13 @@ class _PoliDetailState extends State<PegawaiDetail> {
                   children: [
                     Expanded(
                       child: tombolUbah(snapshot.data!),
-                    ), // Tombol untuk mengubah data pegawai
+                    ), 
                     const SizedBox(
                       width: 10,
                     ),
                     Expanded(
                       child: tombolHapus(snapshot.data!),
-                    ), // Tombol untuk menghapus data pegawai
+                    ), 
                   ],
                 ),
               ],

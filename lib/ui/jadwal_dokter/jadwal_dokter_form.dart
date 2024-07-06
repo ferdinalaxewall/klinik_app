@@ -70,12 +70,17 @@ class _PoliFormState extends State<JadwalDokterForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Tambah Jadwal Dokter")), // AppBar dengan judul
+      appBar: AppBar(
+        title: const Text("Tambah Jadwal Dokter"),
+      ), // AppBar dengan judul
       body: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
+          child: Form(
+            key: formKey,
             child: Column(
               children: [
                 fieldNamaDokter(), // Field untuk memasukkan nama dokter
@@ -84,7 +89,9 @@ class _PoliFormState extends State<JadwalDokterForm> {
                 const SizedBox(height: 20),
                 fieldTanggal(), // Field untuk memilih tanggal
                 const SizedBox(height: 20),
-                tombolSimpan() // Tombol untuk menyimpan data
+                SizedBox(
+                  child: tombolSimpan(), // Tombol untuk menyimpan data
+                )
               ],
             ),
           ),
@@ -97,7 +104,17 @@ class _PoliFormState extends State<JadwalDokterForm> {
   fieldNamaPoli() {
     return SizedBox(
       width: double.infinity,
-      child: DropdownButton(
+      child: DropdownButtonFormField(
+        decoration: InputDecoration(
+          labelText: 'Nama Poli',
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(5),
+            borderSide: const BorderSide(
+              color: Colors.deepPurple, // Border color
+            ),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        ),
         hint: const Text(
           'Pilih Poli',
           style: TextStyle(fontSize: 17, color: Colors.black87),
@@ -124,28 +141,50 @@ class _PoliFormState extends State<JadwalDokterForm> {
   // Field untuk memasukkan nama dokter
   fieldNamaDokter() {
     return TextField(
-      decoration: const InputDecoration(labelText: "Nama Dokter"),
+      decoration: const InputDecoration(
+        labelText: "Nama Dokter",
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: namaDokterController,
     );
   }
 
   // Field untuk memilih tanggal
   fieldTanggal() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          _selectedDate == null
-              ? 'Tanggal Belum Dipilih'
-              : formatter.format(_selectedDate!),
-          style: const TextStyle(fontSize: 16, color: Colors.black87),
+        const Text(
+          'Tanggal:',
+          style: TextStyle(
+            fontSize: 16,
+          ),
         ),
         const SizedBox(
-          width: 10,
+          height: 5,
         ),
-        IconButton(
-          onPressed: _showDatePicker, // Ketika tombol kalender ditekan
-          icon: const Icon(Icons.calendar_month),
-        )
+        Row(
+          children: [
+            Text(
+              _selectedDate == null
+                  ? 'Tanggal Belum Dipilih'
+                  : formatter.format(_selectedDate!),
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed: _showDatePicker, // Ketika tombol kalender ditekan
+              icon: const Icon(Icons.calendar_month),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -162,7 +201,8 @@ class _PoliFormState extends State<JadwalDokterForm> {
             builder: (ctx) => AlertDialog(
               title: const Text('Input Tidak Valid'),
               content: const Text(
-                  'Pastikan Nama Dokter, Poli, dan Tanggal Sudah Terisi!'),
+                'Pastikan Nama Dokter, Poli, dan Tanggal Sudah Terisi!',
+              ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
@@ -182,19 +222,50 @@ class _PoliFormState extends State<JadwalDokterForm> {
         );
 
         await JadwalDokterService().simpan(jadwal_dokter).then((value) {
-          Navigator.push(
+          Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => JadwalDokterDetail(jadwal_dokter: value), // Navigasi ke halaman detail JadwalDokter
+              builder: (context) => JadwalDokterDetail(
+                jadwal_dokter: value,
+              ), // Navigasi ke halaman detail JadwalDokter
             ),
           );
         });
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
+          ),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
-      child: const Text("Simpan"),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.add,
+            size: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Tambah Jadwal Dokter',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

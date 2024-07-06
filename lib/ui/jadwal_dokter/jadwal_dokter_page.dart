@@ -44,31 +44,37 @@ class _JadwalDokterPageState extends State<JadwalDokterPage> {
           )
         ],
       ),
-      body: StreamBuilder(
-        stream: _poliStream, // Stream data jadwal dokter
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString()); // Menampilkan error jika ada
-          }
-
-          if (snapshot.connectionState != ConnectionState.done) {
-            return const Center(
-              child: CircularProgressIndicator(), // Menampilkan loading indicator jika data belum selesai dimuat
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+        ),
+        child: StreamBuilder(
+          stream: _poliStream, // Stream data jadwal dokter
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString()); // Menampilkan error jika ada
+            }
+        
+            if (snapshot.connectionState != ConnectionState.done) {
+              return const Center(
+                child: CircularProgressIndicator(), // Menampilkan loading indicator jika data belum selesai dimuat
+              );
+            }
+        
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return const Text('Data Kosong'); // Menampilkan pesan jika data kosong
+            }
+        
+            return ListView.builder(
+              itemCount: snapshot.data.length, // Jumlah item dalam list
+              itemBuilder: (context, index) {
+                return JadwalDokterItem(jadwal_dokter: snapshot.data[index]); // Menampilkan item jadwal dokter
+              },
             );
-          }
-
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Kosong'); // Menampilkan pesan jika data kosong
-          }
-
-          return ListView.builder(
-            itemCount: snapshot.data.length, // Jumlah item dalam list
-            itemBuilder: (context, index) {
-              return JadwalDokterItem(jadwal_dokter: snapshot.data[index]); // Menampilkan item jadwal dokter
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

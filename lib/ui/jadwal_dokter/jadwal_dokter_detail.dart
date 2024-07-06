@@ -25,44 +25,116 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Detail Jadwal Dokter"), // Judul AppBar
+      appBar: AppBar(
+        title: const Text("Detail Jadwal Dokter"), // Judul AppBar
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
         ),
-        body: StreamBuilder(
+        child: StreamBuilder(
           stream: getData(), // Stream data jadwal dokter
           builder: (context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) {
-              return Text(snapshot.error.toString()); // Tampilkan error jika ada
+              return Text(
+                  snapshot.error.toString()); // Tampilkan error jika ada
             }
 
             if (snapshot.connectionState != ConnectionState.done) {
               return const Center(
-                child: CircularProgressIndicator(), // Tampilkan loading indicator jika data belum selesai dimuat
+                child:
+                    CircularProgressIndicator(), // Tampilkan loading indicator jika data belum selesai dimuat
               );
             }
 
             if (!snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
-              return const Text('Data Tidak Ditemukan'); // Tampilkan pesan jika data tidak ditemukan
+              return const Text(
+                  'Data Tidak Ditemukan'); // Tampilkan pesan jika data tidak ditemukan
             }
 
             return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 10),
-                Text("Nama Poli: ${snapshot.data.namaPoli}"), // Tampilkan nama poli
-                const SizedBox(height: 10),
-                Text("Nama Dokter: ${snapshot.data.namaDokter}"), // Tampilkan nama dokter
-                const SizedBox(height: 10),
-                Text("Tanggal: ${snapshot.data.formattedTanggal}"), // Tampilkan tanggal
-                const SizedBox(height: 20),
+
+                // Menampilkan Nama Jadwal Dokter
+                Text(
+                  snapshot.data!.namaDokter,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan Nama Poli
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.local_hospital,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      snapshot.data!.namaPoli,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ],
+                ),
+
+                // Menampilkan Tanggal
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.calendar_month,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.formattedTanggal),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 40,
+                ),
+
+                // Tombol untuk mengubah dan menghapus data
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [tombolUbah(), tombolHapus()], // Tombol untuk mengubah dan menghapus data
+                  children: [
+                    Expanded(
+                      child: tombolUbah(),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: tombolHapus(),
+                    )
+                  ],
                 )
               ],
             );
           },
-        ));
+        ),
+      ),
+    );
   }
 
   // Widget tombol untuk mengubah data
@@ -74,22 +146,34 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  JadwalDokterUpdateForm(jadwal_dokter: snapshot.data), // Navigasi ke form update JadwalDokter
+              builder: (context) => JadwalDokterUpdateForm(
+                  jadwal_dokter:
+                      snapshot.data), // Navigasi ke form update JadwalDokter
             ),
           );
         },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
+        style: ButtonStyle(
+          shape: WidgetStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          backgroundColor: WidgetStateProperty.all(Colors.green),
+          foregroundColor: WidgetStateProperty.all(Colors.white),
+          padding: WidgetStateProperty.all(
+            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          ),
         ),
         child: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.edit_outlined,
               size: 15,
             ),
-            SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
             Text('Ubah')
           ],
         ),
@@ -119,7 +203,8 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const JadwalDokterPage(), // Kembali ke halaman JadwalDokterPage
+                          builder: (context) =>
+                              const JadwalDokterPage(), // Kembali ke halaman JadwalDokterPage
                         ),
                       );
                     },
@@ -145,13 +230,24 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
           ],
         );
 
-        showDialog(context: context, builder: (context) => alertDialog); // Tampilkan dialog konfirmasi
+        showDialog(
+            context: context,
+            builder: (context) => alertDialog); // Tampilkan dialog konfirmasi
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        backgroundColor: WidgetStateProperty.all(Colors.red),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        ),
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.delete_outline_rounded,
@@ -162,7 +258,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
           ),
           Text(
             'Hapus',
-          )
+          ),
         ],
       ),
     );
