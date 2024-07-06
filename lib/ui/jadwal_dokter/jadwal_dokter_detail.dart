@@ -161,7 +161,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
           backgroundColor: WidgetStateProperty.all(Colors.green),
           foregroundColor: WidgetStateProperty.all(Colors.white),
           padding: WidgetStateProperty.all(
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+            const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           ),
         ),
         child: const Row(
@@ -243,7 +243,7 @@ class _JadwalDokterDetailState extends State<JadwalDokterDetail> {
         backgroundColor: WidgetStateProperty.all(Colors.red),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         padding: WidgetStateProperty.all(
-          const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+          const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         ),
       ),
       child: const Row(

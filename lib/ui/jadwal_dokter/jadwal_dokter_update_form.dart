@@ -271,8 +271,8 @@ class _PoliUpdateFormState extends State<JadwalDokterUpdateForm> {
         foregroundColor: WidgetStateProperty.all(Colors.white),
         padding: WidgetStateProperty.all(
           const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 20,
+            horizontal: 5,
+            vertical: 10,
           ),
         ),
         shape: WidgetStateProperty.all(

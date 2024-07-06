@@ -248,8 +248,8 @@ class _PoliFormState extends State<PegawaiForm> {
         foregroundColor: WidgetStateProperty.all(Colors.white),
         padding: WidgetStateProperty.all(
           const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 20,
+            horizontal: 5,
+            vertical: 10,
           ),
         ),
         shape: WidgetStateProperty.all(
