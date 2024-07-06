@@ -11,10 +11,10 @@ class ApiClient {
   late final Dio dio = Dio(
     BaseOptions(
       // URL dasar menggunakan MockAPI
-      // baseUrl: customBaseURL ?? apiBaseURL1,
+      baseUrl: customBaseURL ?? apiBaseURL1,
 
       // URL dasar menggunakan aplikasi lokal NestJS
-      baseUrl: 'http://localhost:3000/',
+      // baseUrl: 'http://localhost:3000/',
       connectTimeout: const Duration(seconds: 5), // Waktu timeout untuk koneksi
       receiveTimeout: const Duration(seconds: 3) // Waktu timeout untuk menerima data
     )
