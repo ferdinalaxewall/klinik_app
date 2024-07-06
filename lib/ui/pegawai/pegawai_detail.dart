@@ -24,8 +24,7 @@ class _PoliDetailState extends State<PegawaiDetail> {
 
   // Mengambil data pegawai berdasarkan ID dari service
   Stream<Pegawai> _getDataStream() async* {
-    Pegawai data =
-        await PegawaiService().getById(widget.pegawai.id.toString());
+    Pegawai data = await PegawaiService().getById(widget.pegawai.id.toString());
     yield data;
   }
 
@@ -35,100 +34,227 @@ class _PoliDetailState extends State<PegawaiDetail> {
       appBar: AppBar(
         title: const Text("Detail Pegawai"),
       ),
-      body: StreamBuilder<Pegawai>(
-        stream: _pegawaiStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return Text(snapshot.error.toString()); // Tampilkan pesan jika terjadi error
-          }
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 10,
+        ),
+        child: StreamBuilder<Pegawai>(
+          stream: _pegawaiStream,
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text(snapshot.error
+                  .toString()); // Tampilkan pesan jika terjadi error
+            }
 
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(), // Tampilkan indikator loading saat menunggu data
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child:
+                    CircularProgressIndicator(), // Tampilkan indikator loading saat menunggu data
+              );
+            }
+
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return const Text(
+                  'Data Tidak Ditemukan'); // Tampilkan pesan jika data tidak ditemukan
+            }
+
+            // Tampilan detail pegawai
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+
+                // Menampilkan Nama pegawai
+                Text(
+                  snapshot.data!.nama,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan NIP pegawai
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.discount_outlined,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      snapshot.data!.nip,
+                      style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // Menampilkan Nomor Telepon pegawai
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.call,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.nomorTelepon),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan Email pegawai
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.mail_outline,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.email),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 5,
+                ),
+
+                // Menampilkan Tanggal Lahir pegawai
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.calendar_month,
+                      size: 20,
+                      color: Colors.black87,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(snapshot.data!.formattedTanggalLahir),
+                  ],
+                ),
+
+                const SizedBox(
+                  height: 40,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: tombolUbah(snapshot.data!),
+                    ), // Tombol untuk mengubah data pegawai
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: tombolHapus(snapshot.data!),
+                    ), // Tombol untuk menghapus data pegawai
+                  ],
+                ),
+              ],
             );
-          }
-
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            return const Text('Data Tidak Ditemukan'); // Tampilkan pesan jika data tidak ditemukan
-          }
-
-          // Tampilan detail pegawai
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 10),
-              Text("Nama Pegawai: ${snapshot.data!.nama}"), // Menampilkan nama pegawai
-              const SizedBox(height: 10),
-              Text("NIP: ${snapshot.data!.nip}"), // Menampilkan NIP pegawai
-              const SizedBox(height: 10),
-              Text("Nomor Telepon: ${snapshot.data!.nomorTelepon}"), // Menampilkan nomor telepon pegawai
-              const SizedBox(height: 10),
-              Text("Email: ${snapshot.data!.email}"), // Menampilkan email pegawai
-              const SizedBox(height: 10),
-              Text("Tanggal Lahir: ${snapshot.data!.formattedTanggalLahir}"), // Menampilkan tanggal lahir pegawai
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildEditButton(snapshot.data!), // Tombol untuk mengubah data pegawai
-                  _buildDeleteButton(snapshot.data!), // Tombol untuk menghapus data pegawai
-                ],
-              ),
-            ],
-          );
-        },
+          },
+        ),
       ),
     );
   }
 
   // Widget untuk tombol ubah
-  Widget _buildEditButton(Pegawai pegawai) {
+  Widget tombolUbah(Pegawai pegawai) {
     return ElevatedButton(
       onPressed: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PegawaiUpdateForm(pegawai: pegawai), // Beralih ke halaman update data pegawai
+            builder: (context) => PegawaiUpdateForm(
+                pegawai: pegawai), // Beralih ke halaman update data pegawai
           ),
         );
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.green,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        backgroundColor: WidgetStateProperty.all(Colors.green),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        ),
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.edit_outlined,
             size: 15,
           ),
-          SizedBox(width: 5),
-          Text('Ubah'),
+          SizedBox(
+            width: 5,
+          ),
+          Text('Ubah')
         ],
       ),
     );
   }
 
   // Widget untuk tombol hapus
-  Widget _buildDeleteButton(Pegawai pegawai) {
+  Widget tombolHapus(Pegawai pegawai) {
     return ElevatedButton(
       onPressed: () {
-        _showDeleteConfirmationDialog(pegawai); // Menampilkan dialog konfirmasi hapus data pegawai
+        _showDeleteConfirmationDialog(
+            pegawai); // Menampilkan dialog konfirmasi hapus data pegawai
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        backgroundColor: WidgetStateProperty.all(Colors.red),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+        ),
       ),
       child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             Icons.delete_outline_rounded,
             size: 15,
           ),
-          SizedBox(width: 5),
-          Text('Hapus'),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            'Hapus',
+          ),
         ],
       ),
     );
@@ -149,7 +275,8 @@ class _PoliDetailState extends State<PegawaiDetail> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const PegawaiPage(), // Beralih kembali ke halaman data pegawai setelah menghapus
+                    builder: (context) =>
+                        const PegawaiPage(), // Beralih kembali ke halaman data pegawai setelah menghapus
                   ),
                 );
               });

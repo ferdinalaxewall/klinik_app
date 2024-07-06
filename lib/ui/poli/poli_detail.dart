@@ -77,7 +77,7 @@ class _PoliDetailState extends State<PoliDetail> {
                   ),
                 ),
                 const SizedBox(
-                  height: 59,
+                  height: 60,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

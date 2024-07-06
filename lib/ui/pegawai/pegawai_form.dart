@@ -52,7 +52,10 @@ class _PoliFormState extends State<PegawaiForm> {
       appBar: AppBar(title: const Text("Tambah Pegawai")),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(15),
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
           child: Form(
             key: formKey,
             child: Column(
@@ -63,13 +66,16 @@ class _PoliFormState extends State<PegawaiForm> {
                 const SizedBox(height: 20),
                 fieldNomorTelp(), // Widget input nomor telepon
                 const SizedBox(height: 20),
-                fieldTanggalLahir(), // Widget input tanggal lahir
-                const SizedBox(height: 20),
                 fieldEmail(), // Widget input email
                 const SizedBox(height: 20),
                 fieldPassword(), // Widget input password
                 const SizedBox(height: 20),
-                tombolSimpan() // Tombol untuk menyimpan data pegawai baru
+                fieldTanggalLahir(), // Widget input tanggal lahir
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: tombolSimpan(),
+                ) // Tombol untuk menyimpan data pegawai baru
               ],
             ),
           ),
@@ -81,7 +87,12 @@ class _PoliFormState extends State<PegawaiForm> {
   // Widget untuk input nama pegawai
   Widget fieldNama() {
     return TextField(
-      decoration: const InputDecoration(labelText: "Nama Pegawai"),
+      decoration: const InputDecoration(
+        labelText: "Nama Pegawai",
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _namaController,
     );
   }
@@ -89,7 +100,12 @@ class _PoliFormState extends State<PegawaiForm> {
   // Widget untuk input NIP pegawai
   Widget fieldNIP() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Nomor Induk Pegawai (NIP)'),
+      decoration: const InputDecoration(
+        labelText: 'Nomor Induk Pegawai (NIP)',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _nipController,
       keyboardType: TextInputType.number,
     );
@@ -98,7 +114,12 @@ class _PoliFormState extends State<PegawaiForm> {
   // Widget untuk input nomor telepon pegawai
   Widget fieldNomorTelp() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Nomor Telepon'),
+      decoration: const InputDecoration(
+        labelText: 'Nomor Telepon',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _nomorTeleponController,
       keyboardType: TextInputType.phone,
     );
@@ -106,24 +127,40 @@ class _PoliFormState extends State<PegawaiForm> {
 
   // Widget untuk input tanggal lahir pegawai
   Widget fieldTanggalLahir() {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          _selectedDate == null
-              ? 'Pilih Tanggal Lahir'
-              : formatter.format(_selectedDate!), // Menampilkan tanggal yang dipilih dalam format yang telah ditentukan
-          style: const TextStyle(
+        const Text(
+          'Tanggal Lahir:',
+          style: TextStyle(
             fontSize: 16,
-            color: Colors.black87,
           ),
         ),
         const SizedBox(
-          width: 10,
+          height: 5,
         ),
-        IconButton(
-          onPressed: _showDatePicker, // Memanggil method untuk menampilkan date picker
-          icon: const Icon(Icons.calendar_month),
-        )
+        Row(
+          children: [
+            Text(
+              _selectedDate == null
+                  ? 'Pilih Tanggal Lahir'
+                  : formatter.format(
+                      _selectedDate!), // Menampilkan tanggal yang dipilih dalam format yang telah ditentukan
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            IconButton(
+              onPressed:
+                  _showDatePicker, // Memanggil method untuk menampilkan date picker
+              icon: const Icon(Icons.calendar_month),
+            )
+          ],
+        ),
       ],
     );
   }
@@ -131,7 +168,12 @@ class _PoliFormState extends State<PegawaiForm> {
   // Widget untuk input email pegawai
   Widget fieldEmail() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Email'),
+      decoration: const InputDecoration(
+        labelText: 'Email',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _emailController,
       keyboardType: TextInputType.emailAddress,
     );
@@ -140,7 +182,12 @@ class _PoliFormState extends State<PegawaiForm> {
   // Widget untuk input password pegawai
   Widget fieldPassword() {
     return TextField(
-      decoration: const InputDecoration(labelText: 'Password'),
+      decoration: const InputDecoration(
+        labelText: 'Password',
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 2, color: Colors.deepPurple),
+        ),
+      ),
       controller: _passwordController,
       keyboardType: TextInputType.visiblePassword,
       obscureText: true,
@@ -161,7 +208,8 @@ class _PoliFormState extends State<PegawaiForm> {
             context: context,
             builder: (ctx) => AlertDialog(
               title: const Text('Input Tidak Valid'),
-              content: const Text('Pastikan Nama Pegawai, NIP, Email, Password, Nomor Telepon, dan Tanggal Lahir Sudah Terisi!'),
+              content: const Text(
+                  'Pastikan Nama Pegawai, NIP, Email, Password, Nomor Telepon, dan Tanggal Lahir Sudah Terisi!'),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(ctx),
@@ -176,29 +224,59 @@ class _PoliFormState extends State<PegawaiForm> {
 
         // Membuat objek pegawai baru dari inputan pengguna
         Pegawai pegawai = Pegawai(
-          nama: _namaController.text.trim(),
-          nip: _nipController.text.trim(),
-          nomorTelepon: _nomorTeleponController.text.trim(),
-          tanggalLahir: _selectedDate!,
-          email: _emailController.text.trim(),
-          password: _passwordController.text.trim()
-        );
+            nama: _namaController.text.trim(),
+            nip: _nipController.text.trim(),
+            nomorTelepon: _nomorTeleponController.text.trim(),
+            tanggalLahir: _selectedDate!,
+            email: _emailController.text.trim(),
+            password: _passwordController.text.trim());
 
         // Menyimpan data pegawai menggunakan service
         await PegawaiService().simpan(pegawai).then((value) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PegawaiDetail(pegawai: value), // Beralih ke halaman detail pegawai setelah berhasil menyimpan
+              builder: (context) => PegawaiDetail(
+                  pegawai:
+                      value), // Beralih ke halaman detail pegawai setelah berhasil menyimpan
             ),
           );
         });
       },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.deepPurple,
-        foregroundColor: Colors.white,
+      style: ButtonStyle(
+        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
+          ),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
       ),
-      child: const Text("Simpan"),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.add,
+            size: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Tambah Pegawai',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

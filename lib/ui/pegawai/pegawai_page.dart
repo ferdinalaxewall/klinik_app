@@ -50,36 +50,42 @@ class _PoliPageState extends State<PegawaiPage> {
           )
         ],
       ),
-      body: StreamBuilder(
-        // StreamBuilder untuk menampilkan stream data pegawai
-        stream: _poliStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.hasError) {
-            // Menampilkan pesan error jika terjadi kesalahan
-            return Text(snapshot.error.toString());
-          }
-
-          if (snapshot.connectionState != ConnectionState.done) {
-            // Menampilkan indikator loading saat data masih diambil
-            return const Center(
-              child: CircularProgressIndicator(),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 15,
+          vertical: 10,
+        ),
+        child: StreamBuilder(
+          // StreamBuilder untuk menampilkan stream data pegawai
+          stream: _poliStream,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) {
+              // Menampilkan pesan error jika terjadi kesalahan
+              return Text(snapshot.error.toString());
+            }
+        
+            if (snapshot.connectionState != ConnectionState.done) {
+              // Menampilkan indikator loading saat data masih diambil
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+        
+            if (!snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              // Menampilkan pesan jika tidak ada data
+              return const Text('Data Kosong');
+            }
+        
+            // Menampilkan data pegawai dalam bentuk ListView
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (context, index) {
+                return PegawaiItem(pegawai: snapshot.data[index]);
+              },
             );
-          }
-
-          if (!snapshot.hasData &&
-              snapshot.connectionState == ConnectionState.done) {
-            // Menampilkan pesan jika tidak ada data
-            return const Text('Data Kosong');
-          }
-
-          // Menampilkan data pegawai dalam bentuk ListView
-          return ListView.builder(
-            itemCount: snapshot.data.length,
-            itemBuilder: (context, index) {
-              return PegawaiItem(pegawai: snapshot.data[index]);
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

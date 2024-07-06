@@ -2,7 +2,6 @@ import 'package:klinik_app/model/poli.dart';
 import 'package:klinik_app/service/poli_service.dart';
 import 'package:klinik_app/ui/poli/poli_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:klinik_app/ui/poli/poli_page.dart';
 
 // Stateful widget untuk form penambahan data poli
 class PoliForm extends StatefulWidget {
@@ -123,39 +122,39 @@ class _PoliFormState extends State<PoliForm> {
         });
       },
       style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
-          foregroundColor: WidgetStateProperty.all(Colors.white),
-          padding: WidgetStateProperty.all(
-            const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 20,
-            ),
-          ),
-          shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
+        foregroundColor: WidgetStateProperty.all(Colors.white),
+        padding: WidgetStateProperty.all(
+          const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 20,
           ),
         ),
-        child: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.add,
-              size: 20,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Tambah Poli',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-              ),
-            ),
-          ],
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
+      ),
+      child: const Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.add,
+            size: 20,
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            'Tambah Poli',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
