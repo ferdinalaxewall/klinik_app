@@ -197,14 +197,14 @@ class _PoliDetailState extends State<PegawaiDetail> {
         );
       },
       style: ButtonStyle(
-        shape: WidgetStateProperty.all(
+        shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        backgroundColor: WidgetStateProperty.all(Colors.green),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(
+        backgroundColor: MaterialStateProperty.all(Colors.green),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(
           const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         ),
       ),
@@ -232,14 +232,14 @@ class _PoliDetailState extends State<PegawaiDetail> {
             pegawai); // Menampilkan dialog konfirmasi hapus data pegawai
       },
       style: ButtonStyle(
-        shape: WidgetStateProperty.all(
+        shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        backgroundColor: WidgetStateProperty.all(Colors.red),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(
+        backgroundColor: MaterialStateProperty.all(Colors.red),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(
           const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         ),
       ),

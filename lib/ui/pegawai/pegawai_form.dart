@@ -23,7 +23,7 @@ class _PoliFormState extends State<PegawaiForm> {
 
   DateTime? _selectedDate; // Untuk menyimpan tanggal yang dipilih
 
-  // Method untuk menampilkan date picker
+  // Method untuk menampilkan date picker / input tanggal
   void _showDatePicker() async {
     DateTime now = DateTime.now();
     DateTime currentDate = _selectedDate ?? now;
@@ -244,15 +244,15 @@ class _PoliFormState extends State<PegawaiForm> {
         });
       },
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(
+        backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(
           const EdgeInsets.symmetric(
             horizontal: 5,
             vertical: 10,
           ),
         ),
-        shape: WidgetStateProperty.all(
+        shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

@@ -115,14 +115,14 @@ class _PoliDetailState extends State<PoliDetail> {
           );
         },
         style: ButtonStyle(
-          shape: WidgetStateProperty.all(
+          shape: MaterialStateProperty.all(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          backgroundColor: WidgetStateProperty.all(Colors.green),
-          foregroundColor: WidgetStateProperty.all(Colors.white),
-          padding: WidgetStateProperty.all(
+          backgroundColor: MaterialStateProperty.all(Colors.green),
+          foregroundColor: MaterialStateProperty.all(Colors.white),
+          padding: MaterialStateProperty.all(
             const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           ),
         ),
@@ -194,14 +194,14 @@ class _PoliDetailState extends State<PoliDetail> {
         showDialog(context: context, builder: (context) => alertDialog);
       },
       style: ButtonStyle(
-        shape: WidgetStateProperty.all(
+        shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
-        backgroundColor: WidgetStateProperty.all(Colors.red),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(
+        backgroundColor: MaterialStateProperty.all(Colors.red),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(
           const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
         ),
       ),

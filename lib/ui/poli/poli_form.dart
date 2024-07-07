@@ -122,15 +122,15 @@ class _PoliFormState extends State<PoliForm> {
         });
       },
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.deepPurple),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        padding: WidgetStateProperty.all(
+        backgroundColor: MaterialStateProperty.all(Colors.deepPurple),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        padding: MaterialStateProperty.all(
           const EdgeInsets.symmetric(
             horizontal: 5,
             vertical: 10,
           ),
         ),
-        shape: WidgetStateProperty.all(
+        shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
